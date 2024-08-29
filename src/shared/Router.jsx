@@ -9,13 +9,22 @@ import NewPost from '../pages/NewPost';
 import EditPost from '../pages/EditPost';
 
 const Router = () => {
-  let isSignIn = true;
-  // 로그인하지 않은(인증되지 않은) 사용자 전용 라우트
-  const routesForNotAuthenticatedOnly = [
+  // TODO: 성현 - 로그인 로직 구현 후 현재 로그인 상태 확인할 수 있도록 수정
+  let isSignIn = false;
+
+  const publicRoutes = [
     {
       path: '/',
       element: <Home />
     },
+    {
+      path: '/detailpost',
+      element: <DetailPost />
+    }
+  ];
+
+  // 로그인하지 않은(인증되지 않은) 사용자 전용 라우트
+  const routesForNotAuthenticatedOnly = [
     {
       path: '/signin',
       element: <SignIn />
@@ -23,19 +32,11 @@ const Router = () => {
     {
       path: '/signup',
       element: <SignUp />
-    },
-    {
-      path: '/detailpost',
-      element: <DetailPost />
     }
   ];
   const routesForAuthenticatedOnly = [
     {
-      path: '/',
-      element: <Home />
-    },
-    {
-      path: '/authonly',
+      path: '/auth',
       element: <ProtectedRoute />,
       children: [
         {
@@ -61,6 +62,7 @@ const Router = () => {
   // createBrowserRouter: 라우터를 정의하는 기본 함수, 여러 그룹의 라우트를 한 번에 관리할 수 있게 함
   const router = createBrowserRouter([
     // 라우트 설정들
+    ...publicRoutes,
     ...routesForAuthenticatedOnly, // isSignIn이 true일 때 Home이 보여짐 + Protected Routes를 구현함 (경로를 찾을 때 위에서부터 확인 따라서 먼저 보이는 인증된 사용자용 "/"로 이동하는 것)
     ...(!isSignIn ? routesForNotAuthenticatedOnly : []), // isSignIn이 false일 때 라우트에 포함되고, 아니라면 빈 배열
     notFound
