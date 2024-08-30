@@ -5,13 +5,10 @@ import { UserContext } from '../context/UserContextProvider';
 import { S_Logo, S_Nav } from '../styled/StyledHome';
 
 const Header = () => {
-  // Todo = 로그인 정보 연결
-  // context에서 받아서 사용 (로그인)
   const { user, HandleSignOut } = useContext(UserContext);
   const nav = useNavigate();
-  //
   const handleLogoClick = () => {
-    nav('/'); // 홈으로 이동
+    nav('/');
   };
   return (
     <>
