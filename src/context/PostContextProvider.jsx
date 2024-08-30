@@ -1,10 +1,13 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import supabase from '../supabaseClient';
+import { getImageURL } from '../utils/supabaseStorage';
+import { UserContext } from './UserContextProvider';
 
 export const PostContext = createContext(null);
 
 const PostContextProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     fetchPosts();
@@ -20,21 +23,31 @@ const PostContextProvider = ({ children }) => {
     }
   };
 
-  const addPosts = async ({ title, content, project_start_date, project_end_date, tech_stack, thumbnail_url }) => {
-    const { error } = await supabase.from('DEV_POSTS').insert({
-      title,
-      content,
-      project_start_date,
-      project_end_date,
-      tech_stack,
-      thumbnail_url
-    });
+  const addPosts = async ({ title, content, project_start_date, project_end_date, tech_stack, thumbnail }) => {
+    tech_stack = tech_stack.split(' ');
+    const thumbnail_url = await getImageURL(thumbnail, 'thumbnails');
 
-    if (error) {
-      console.log('🚀 ~ addPosts ~ error:', error);
+    // TODO: 민영 - 유효성검사 추가
+
+    const { data: uploadPost, error: tableError } = await supabase
+      .from('DEV_POSTS')
+      .upsert({
+        title,
+        content,
+        project_start_date,
+        project_end_date,
+        tech_stack,
+        thumbnail_url,
+        author_id: user.id
+      })
+      .select();
+
+    if (tableError) {
+      console.log('🚀 ~ addPosts ~ tableError:', tableError);
     } else {
       fetchPosts();
       alert('프로젝트가 정상적으로 등록되었습니다.');
+      return uploadPost[0].post_id;
     }
   };
 
