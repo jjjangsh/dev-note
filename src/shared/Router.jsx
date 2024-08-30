@@ -8,6 +8,8 @@ import MyPage from '../pages/MyPage';
 import NewPost from '../pages/NewPost';
 import EditPost from '../pages/EditPost';
 
+import Layout from '../components/Layout'; // 지영추가
+
 const Router = () => {
   // TODO: 성현 - 로그인 로직 구현 후 현재 로그인 상태 확인할 수 있도록 수정
   let isSignIn = false;
@@ -61,11 +63,19 @@ const Router = () => {
   // createBrowserRouter로 라우터 생성
   // createBrowserRouter: 라우터를 정의하는 기본 함수, 여러 그룹의 라우트를 한 번에 관리할 수 있게 함
   const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        ...publicRoutes,
+        ...(!isSignIn ? routesForNotAuthenticatedOnly : []), // isSignIn이 false일 때 라우트에 포함되고, 아니라면 빈 배열
+        // isSignIn이 true일 때 Home이 보여짐 + Protected Routes를 구현함 (경로를 찾을 때 위에서부터 확인 따라서 먼저 보이는 인증된 사용자용 "/"로 이동하는 것)
+        ...routesForAuthenticatedOnly,
+
+        notFound
+      ]
+    }
     // 라우트 설정들
-    ...publicRoutes,
-    ...routesForAuthenticatedOnly, // isSignIn이 true일 때 Home이 보여짐 + Protected Routes를 구현함 (경로를 찾을 때 위에서부터 확인 따라서 먼저 보이는 인증된 사용자용 "/"로 이동하는 것)
-    ...(!isSignIn ? routesForNotAuthenticatedOnly : []), // isSignIn이 false일 때 라우트에 포함되고, 아니라면 빈 배열
-    notFound
   ]);
   return <RouterProvider router={router} />;
 };
