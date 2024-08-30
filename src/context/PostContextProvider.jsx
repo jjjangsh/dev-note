@@ -1,10 +1,13 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import supabase from '../supabaseClient';
+import { getImageURL } from '../utils/supabaseStorage';
+import { UserContext } from './UserContextProvider';
 
 export const PostContext = createContext(null);
 
 const PostContextProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     fetchPosts();
@@ -21,31 +24,9 @@ const PostContextProvider = ({ children }) => {
   };
 
   const addPosts = async ({ title, content, project_start_date, project_end_date, tech_stack, thumbnail }) => {
-    let thumbnail_url;
     tech_stack = tech_stack.split(' ');
-
-    const thumbnailName = `${Date.now()}-${crypto.randomUUID()}`;
-    const thumbnailPath = `${thumbnailName}`;
-
-    try {
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('thumbnails')
-        .upload(thumbnailPath, thumbnail);
-
-      if (uploadError) {
-        console.log('🚀 ~ NewPost ~ uploadError:', uploadError);
-      } else {
-        const { data: urlData, error: urlError } = supabase.storage.from('thumbnails').getPublicUrl(uploadData.path);
-
-        if (urlError) {
-          console.log('🚀 ~ NewPost ~ urlError:', urlError);
-        } else {
-          thumbnail_url = urlData.publicUrl;
-        }
-      }
-    } catch (error) {
-      console.error('Unexpected error: ', error);
-    }
+    const thumbnail_url = await getImageURL(thumbnail, 'thumbnails');
+    console.log('🚀 ~ addPosts ~ thumbnail_url:', thumbnail_url);
 
     // TODO: 민영 - 유효성검사 추가
 
@@ -55,7 +36,8 @@ const PostContextProvider = ({ children }) => {
       project_start_date,
       project_end_date,
       tech_stack,
-      thumbnail_url
+      thumbnail_url,
+      author_id: user.id
     });
 
     if (tableError) {
