@@ -1,28 +1,6 @@
-nav {
-  background-color: black;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 60px;
-  top: 0;
-}
-nav img {
-  width: 120px;
-}
-
+.navBtn,
 nav span {
   color: white;
   padding: 10px;
-}
-footer p {
-  font-size: 13px;
-}
-
-.card {
-  border-radius: 30px;
-  overflow: hidden;
-  width: 300px;
-  /* max-height: 350px; */
-  border: 1px solid gray;
-  flex-basis: auto;
+  text-decoration: none;
 }

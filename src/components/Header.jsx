@@ -1,52 +1,44 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import '../test.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContextProvider';
+import { S_Logo, S_Nav } from '../styled/StyledHome';
 
 const Header = () => {
   // Todo = 로그인 정보 연결
-  // context에서 받아서 사용 (로그인 함수를 구현하시면 그때)
-  const [isSignIn, setIsSignIn] = useState(true); // 로그인 상태 관리
+  // context에서 받아서 사용 (로그인)
+  const { user, HandleSignOut } = useContext(UserContext);
   const nav = useNavigate();
-
-  const handleLogOut = () => {
-    nav('/');
-    setIsSignIn(false); // 상태 변경
-  };
-  const handleLogIn = () => {
-    nav('/signin');
-    setIsSignIn(true); // 상태 변경
-  };
-  const handleMypage = () => {
-    if (isSignIn) {
-      nav('auth/mypage');
-    } else {
-      nav('/signin');
-    }
-  };
+  //
   const handleLogoClick = () => {
     nav('/'); // 홈으로 이동
   };
-  const handleSignUp = () => {
-    nav('/signup');
-  };
   return (
     <>
-      <nav>
-        <img src="../logo.png" alt="" onClick={handleLogoClick} style={{ cursor: 'pointer' }} />
+      <S_Nav>
+        <S_Logo src="../logo.png" onClick={handleLogoClick} />
         <div>
-          {isSignIn ? (
+          {user ? (
             <>
-              <span onClick={handleLogOut}>Logout</span>
-              <span onClick={handleMypage}>Mypage</span>
+              <Link className="navBtn" onClick={HandleSignOut}>
+                Logout
+              </Link>
+              <Link className="navBtn" to="/auth/mypage">
+                Mypage
+              </Link>
             </>
           ) : (
             <>
-              <span onClick={handleLogIn}>Login</span>
-              <span onClick={handleSignUp}>SignUp</span>
+              <Link className="navBtn" to="/signin">
+                SignIn
+              </Link>
+              <Link className="navBtn" to="/signup">
+                SignUp
+              </Link>
             </>
           )}
         </div>
-      </nav>
+      </S_Nav>
     </>
   );
 };

@@ -70,7 +70,7 @@ const Router = () => {
       children: [
         // 라우트 설정들
         ...publicRoutes,
-        ...(user ? routesForAuthenticatedOnly : []), // user가 true일 때 Home이 보여짐 + Protected Routes를 구현함 (경로를 찾을 때 위에서부터 확인 따라서 먼저 보이는 인증된 사용자용 "/"로 이동하는 것)
+        ...routesForAuthenticatedOnly, // user가 true일 때 Home이 보여짐 + Protected Routes를 구현함 (경로를 찾을 때 위에서부터 확인 따라서 먼저 보이는 인증된 사용자용 "/"로 이동하는 것)
         ...(!user ? routesForNotAuthenticatedOnly : []), // user가 false일 때 라우트에 포함되고, 아니라면 빈 배열
         notFound
       ]

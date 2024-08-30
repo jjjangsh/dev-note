@@ -1,8 +1,14 @@
-import { S_CardImg, S_TextArea, S_Stack, S_Title, S_Content, S_FlexBox } from '../styled/StyledHome';
+import { useNavigate } from 'react-router-dom';
+import { S_CardImg, S_TextArea, S_Stack, S_Title, S_Content, S_FlexBox, S_Card } from '../styled/StyledHome';
 
 const Card = ({ item }) => {
+  const nav = useNavigate();
+  //
+  const handleDetail = () => {
+    nav('/detailpost'); // 홈으로 이동
+  };
   return (
-    <div className="card">
+    <S_Card onClick={handleDetail}>
       <S_CardImg style={{ backgroundImage: `url(${item.thumbnail_url})` }}></S_CardImg>
       <S_TextArea>
         {item.tech_stack && Array.isArray(item.tech_stack) ? (
@@ -21,7 +27,7 @@ const Card = ({ item }) => {
           <span>{item.created_at}</span>
         </S_FlexBox>
       </S_TextArea>
-    </div>
+    </S_Card>
   );
 };
 

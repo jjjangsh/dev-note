@@ -1,15 +1,5 @@
 import styled from 'styled-components';
-
-//Card.jsx
-export const S_CardImg = styled.div`
-  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF1IwK6-SxM83UpFVY6WtUZxXx-phss_gAUfdKbkTfau6VWVkt');
-  width: 300px;
-  height: 180px;
-  background-position: center;
-  background-size: cover;
-`;
-
-//Home.jsx
+// Home css start //
 export const S_HomeTitle = styled.h1`
   font-size: 30px;
   display: block;
@@ -19,7 +9,6 @@ export const S_HomeTitle = styled.h1`
   font-weight: 600;
   border-bottom: 1px solid gray;
 `;
-
 export const S_CardContainer = styled.div`
   margin: 10px;
   display: flex;
@@ -29,6 +18,23 @@ export const S_CardContainer = styled.div`
   max-width: 963px;
   margin: 0 auto;
   padding: 50px 0 150px;
+`;
+// Home css end //
+
+// Card css start
+export const S_Card = styled.div`
+  border-radius: 30px;
+  overflow: hidden;
+  width: 300px;
+  border: 1px solid gray;
+  flex-basis: auto;
+`;
+export const S_CardImg = styled.div`
+  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF1IwK6-SxM83UpFVY6WtUZxXx-phss_gAUfdKbkTfau6VWVkt');
+  width: 300px;
+  height: 180px;
+  background-position: center;
+  background-size: cover;
 `;
 export const S_TextArea = styled.div`
   padding: 20px;
@@ -60,9 +66,14 @@ export const S_FlexBox = styled.div`
   justify-content: space-between;
   font-size: 11px;
 `;
+// Card css end
 
 // Header css start //
-export const S_Nav = styled.div`
+export const S_Logo = styled.img`
+  width: 120px;
+  cursor: pointer;
+`;
+export const S_Nav = styled.nav`
   background-color: black;
   display: flex;
   justify-content: space-between;
@@ -71,16 +82,9 @@ export const S_Nav = styled.div`
   top: 0;
 `;
 
-// header css // Todo 지영 스타일 오류남
-/*export const S_NavImg = styled.div`
-  width: 120px;
-`;
+// Header css start //
 
-export const S_NavSpan = styled.span`
-  color: white;
-  padding: 10px;
-`; */
-
+// footer css start //
 export const S_Footer = styled.div`
   position: fixed;
   bottom: 0;
@@ -94,4 +98,4 @@ export const S_FooterP = styled.p`
   text-align: center;
   line-height: 100px;
 `;
-// footer css start //
+// footer css end //
