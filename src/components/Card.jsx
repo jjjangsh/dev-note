@@ -5,7 +5,7 @@ const Card = ({ item }) => {
   const nav = useNavigate();
   //
   const handleDetail = () => {
-    nav('/detailpost'); // 홈으로 이동
+    nav(`/detailpost/${item.post_id}`); // 홈으로 이동
   };
   return (
     <S_Card onClick={handleDetail}>
