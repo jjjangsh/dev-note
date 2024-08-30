@@ -37,7 +37,7 @@ const NewPost = () => {
       </S_PageDescriptionContainer>
       <S_InputFieldContainer>
         <h3>썸네일</h3>
-        <ImageInput label="썸네일 선택하기" setValue={setThumbnail} />
+        <ImageInput label="썸네일 선택하기" value={thumbnail} setValue={setThumbnail} />
       </S_InputFieldContainer>
       <S_InputFieldContainer>
         <h3>기술 스택</h3>
