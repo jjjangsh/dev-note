@@ -3,6 +3,8 @@ import Input from '../components/common/Input';
 import { useState, useContext } from 'react';
 import { PostContext } from '../context/PostContextProvider';
 import { useNavigate } from 'react-router-dom';
+import ImageInput from '../components/common/FileInput.jsx';
+import styled from 'styled-components';
 
 const NewPost = () => {
   const { addPosts } = useContext(PostContext);
@@ -33,34 +35,108 @@ const NewPost = () => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   return (
-    <div>
-      <h2>새 글 쓰기</h2>
-      <p>프로젝트를 소개해주세요!</p>
-      <div>
+    <S_NewPostLayout>
+      <S_PageDescriptionContainer>
+        <h2>새 글 쓰기</h2>
+        <p>프로젝트를 소개해주세요!</p>
+      </S_PageDescriptionContainer>
+      <S_InputFieldContainer>
         <h3>썸네일</h3>
-        <input type="file" accept=".jpg, .png, .gif" onChange={handleThumbnailInput} />
-      </div>
-      <div>
+        <ImageInput onChange={handleThumbnailInput} />
+      </S_InputFieldContainer>
+      <S_InputFieldContainer>
         <h3>기술 스택</h3>
-        <Input value={techStack} setValue={setTechStack} />
-      </div>
-      <div>
+        <S_Input value={techStack} setValue={setTechStack} />
+      </S_InputFieldContainer>
+      <S_InputFieldContainer>
         <h3>제목</h3>
-        <Input value={title} setValue={setTitle} />
-      </div>
-      <div>
+        <S_Input value={title} setValue={setTitle} />
+      </S_InputFieldContainer>
+      <S_InputFieldContainer>
         <h3>내용</h3>
-        <Input type="text" value={content} setValue={setContent} />
-      </div>
-      <div>
+        <S_ContentTextarea
+          value={content}
+          onChange={(e) => {
+            setContent(e.target.value);
+          }}
+        />
+      </S_InputFieldContainer>
+      <S_InputFieldContainer>
         <h3>프로젝트 진행시기</h3>
         {/* TODO: 민영 - 처음 페이지 들어왔을 때 value가 없으면 warning 뜨는 듯함 */}
-        <Input value={startDate} setValue={setStartDate} type="date" />
-        <Input value={endDate} setValue={setEndDate} type="date" />
-      </div>
-      <Button onClick={handleAddPost}>추가하기</Button>
-    </div>
+        <S_DateContainer>
+          <S_Input value={startDate} setValue={setStartDate} type="date" />
+          <S_Input value={endDate} setValue={setEndDate} type="date" />
+        </S_DateContainer>
+      </S_InputFieldContainer>
+      <S_SubmitButton onClick={handleAddPost}>추가하기</S_SubmitButton>
+    </S_NewPostLayout>
   );
 };
 
 export default NewPost;
+
+const S_NewPostLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  padding: 100px;
+
+  position: relative;
+`;
+
+const S_PageDescriptionContainer = styled.div`
+  h2 {
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 15px;
+  }
+`;
+
+const S_InputFieldContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+
+  & > h3 {
+    font-weight: 600;
+  }
+`;
+
+const S_DateContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  & > * {
+    width: 150px;
+    padding-left: 5px;
+  }
+`;
+
+const S_Input = styled(Input)`
+  border: 1px solid #b5b0b0;
+  height: ${(props) => (props.inputOf === 'content' ? '200px' : '25px')};
+
+  &:focus {
+    border: 1px solid #7abeff;
+    box-shadow: 0 0 4px #7abeff;
+    outline: none;
+  }
+`;
+
+const S_ContentTextarea = styled.textarea`
+  resize: none;
+  height: 200px;
+
+  &:focus {
+    border: 1px solid #7abeff;
+    box-shadow: 0 0 4px #7abeff;
+    outline: none;
+  }
+`;
+
+const S_SubmitButton = styled(Button)`
+  position: absolute;
+  right: 80px;
+  bottom: 5px;
+`;
