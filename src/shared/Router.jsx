@@ -21,7 +21,7 @@ const Router = () => {
       element: <Home />
     },
     {
-      path: '/detailpost',
+      path: '/detailpost/:id',
       element: <DetailPost />
     }
   ];
