@@ -3,7 +3,7 @@ import Input from '../components/common/Input';
 import { useState, useContext } from 'react';
 import { PostContext } from '../context/PostContextProvider';
 import { useNavigate } from 'react-router-dom';
-import ImageInput from '../components/common/FileInput.jsx';
+import ImageInput from '../components/common/ImageInput.jsx';
 import styled from 'styled-components';
 
 const NewPost = () => {
@@ -24,11 +24,6 @@ const NewPost = () => {
   };
 
   const [thumbnail, setThumbnail] = useState();
-  const handleThumbnailInput = (e) => {
-    const file = e.target.files[0];
-    setThumbnail(file);
-  };
-
   const [techStack, setTechStack] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -42,7 +37,7 @@ const NewPost = () => {
       </S_PageDescriptionContainer>
       <S_InputFieldContainer>
         <h3>썸네일</h3>
-        <ImageInput onChange={handleThumbnailInput} />
+        <ImageInput label="썸네일 선택하기" setValue={setThumbnail} />
       </S_InputFieldContainer>
       <S_InputFieldContainer>
         <h3>기술 스택</h3>
