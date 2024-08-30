@@ -2,12 +2,14 @@ import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import { useState, useContext } from 'react';
 import { PostContext } from '../context/PostContextProvider';
+import { useNavigate } from 'react-router-dom';
 
 const NewPost = () => {
   const { addPosts } = useContext(PostContext);
+  const navigate = useNavigate();
 
-  const handleAddPost = () => {
-    addPosts({
+  const handleAddPost = async () => {
+    const postId = await addPosts({
       title: title,
       content: content,
       project_start_date: startDate,
@@ -15,10 +17,12 @@ const NewPost = () => {
       tech_stack: techStack,
       thumbnail: thumbnail
     });
+
+    navigate(`/detailpost/${postId}`, { replace: true });
   };
 
   const [thumbnail, setThumbnail] = useState();
-  const handleThumbnailInput = async (e) => {
+  const handleThumbnailInput = (e) => {
     const file = e.target.files[0];
     setThumbnail(file);
   };
