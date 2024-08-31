@@ -17,11 +17,11 @@ const Header = () => {
         <div>
           {user ? (
             <>
-              <Link className="navBtn" onClick={HandleSignOut}>
-                Logout
-              </Link>
               <Link className="navBtn" to="/auth/mypage">
                 Mypage
+              </Link>
+              <Link className="navBtn" onClick={HandleSignOut}>
+                Logout
               </Link>
             </>
           ) : (

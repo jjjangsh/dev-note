@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 // Home css start //
 export const S_HomeTitle = styled.h1`
+  position: relative;
   font-size: 30px;
   display: block;
   max-width: 940px;
@@ -8,6 +9,20 @@ export const S_HomeTitle = styled.h1`
   padding-top: 50px;
   font-weight: 600;
   border-bottom: 1px solid gray;
+`;
+export const S_AddNewPostBtn = styled.span`
+  position: absolute;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background-image: url(../../public/add-btn-black.png);
+  background-size: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 export const S_CardContainer = styled.div`
   margin: 10px;

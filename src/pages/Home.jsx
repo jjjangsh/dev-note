@@ -1,15 +1,18 @@
 import { useContext } from 'react';
 import Card from '../components/Card';
-import { S_HomeTitle, S_CardContainer } from '../styled/StyledHome';
+import { S_HomeTitle, S_CardContainer, S_AddNewPostBtn } from '../styled/StyledHome';
 
 import { PostContext } from '../context/PostContextProvider';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const { posts } = useContext(PostContext);
-
+  const nav = useNavigate();
   return (
     <>
-      <S_HomeTitle>Dev-note</S_HomeTitle>
+      <S_HomeTitle>
+        Dev-note <S_AddNewPostBtn onClick={() => nav('/auth/newPost')}></S_AddNewPostBtn>
+      </S_HomeTitle>
 
       <S_CardContainer>
         {posts.map((item) => {
