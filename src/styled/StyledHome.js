@@ -39,17 +39,30 @@ export const S_CardImg = styled.div`
 export const S_TextArea = styled.div`
   padding: 20px;
   line-height: 25px;
+  height: 160px;
+`;
+export const S_StackContainer = styled.div`
+  line-height: 16px;
+  height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 export const S_Stack = styled.div`
   font-size: 11px;
   font-weight: 500;
   border-radius: 10px;
-  padding: 0px 10px;
+  padding-right: 10px;
   display: inline-block;
 `;
 export const S_Title = styled.div`
   font-size: 15px;
   font-weight: 800;
+  height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 13px;
 `;
 export const S_Content = styled.div`
   font-size: 12px;
