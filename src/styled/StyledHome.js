@@ -41,8 +41,13 @@ export const S_Card = styled.div`
   border-radius: 30px;
   overflow: hidden;
   width: 300px;
-  border: 1px solid gray;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   flex-basis: auto;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 export const S_CardImg = styled.div`
   background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF1IwK6-SxM83UpFVY6WtUZxXx-phss_gAUfdKbkTfau6VWVkt');
