@@ -22,7 +22,11 @@ const Card = ({ item }) => {
 
   return (
     <S_Card onClick={handleDetail}>
-      <S_CardImg style={{ backgroundImage: `url(${item.thumbnail_url})` }}></S_CardImg>
+      <S_CardImg
+        style={{
+          backgroundImage: item.thumbnail_url ? `url(${item.thumbnail_url})` : `url('../../public/no-img.png')`
+        }}
+      ></S_CardImg>
       <S_TextArea>
         <S_StackContainer>
           {item.tech_stack.map((stackItem, index) => {
@@ -33,7 +37,7 @@ const Card = ({ item }) => {
         <S_Title>{item.title}</S_Title>
         <S_Content>{item.content}</S_Content>
         <S_FlexBox>
-          <span>사용자 이름</span>
+          <span>{item.author_nickname}</span>
           <span>{formattedDate}</span>
         </S_FlexBox>
       </S_TextArea>
