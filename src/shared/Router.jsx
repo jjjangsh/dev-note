@@ -49,7 +49,7 @@ const Router = () => {
           element: <NewPost />
         },
         {
-          path: 'editpost',
+          path: 'editpost/:id',
           element: <EditPost />
         }
       ]
