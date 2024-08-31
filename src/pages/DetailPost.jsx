@@ -84,7 +84,11 @@ const DetailPost = () => {
               </S_PostInfoActionBar>
             </S_PostInfoBar>
           </S_PostInfoBarWrapper>
-          <img src={post.thumbnail_url} alt={post.title} style={{ maxWidth: '80%', height: 'auto' }} />
+          <img
+            src={post.thumbnail_url}
+            alt={post.title}
+            style={{ fontSize: '0.8rem', maxWidth: '80%', height: 'auto' }}
+          />
 
           <S_PostInfoTimeWrapper>
             <p style={{ fontWeight: '200', fontSize: '0.8rem' }}>
@@ -105,13 +109,13 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color: #FCFCFC;
     width: 100%;
-    height: 100%;
     margin: 0;
     padding: 0;
   }
 `;
 const S_PostSectionWrapper = styled.section`
   margin-top: 3rem;
+  margin-bottom: 5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
