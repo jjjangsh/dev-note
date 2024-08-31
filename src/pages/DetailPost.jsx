@@ -42,9 +42,9 @@ const DetailPost = () => {
               <span
                 key={index}
                 style={{
-                  fontSize: 'small',
+                  fontSize: '0.8rem',
                   display: 'inline-block',
-                  padding: '6px 12px',
+                  padding: '6px 10px',
                   border: '1px solid #9F9F9F',
                   borderRadius: '100px',
                   marginRight: '8px'
@@ -57,7 +57,8 @@ const DetailPost = () => {
           <h1
             style={{
               fontSize: '2.5rem',
-              fontWeight: '800'
+              fontWeight: '800',
+              marginTop: '1rem'
             }}
           >
             {post.title}
@@ -135,7 +136,7 @@ const S_PostInfoBar = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 8px 16px;
+  padding: 18px 16px;
   justify-content: space-between;
 
   width: 100%;
