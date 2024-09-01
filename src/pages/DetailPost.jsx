@@ -76,7 +76,7 @@ const DetailPost = () => {
               <S_PostInfoActionBar>
                 <S_PostInfo>
                   <Link
-                    to={`/editpost/${post.post_id}`}
+                    to={`/auth/editpost/${post.post_id}`}
                     style={{ textDecoration: 'underline', color: 'grey', fontSize: 'small' }}
                   >
                     수정

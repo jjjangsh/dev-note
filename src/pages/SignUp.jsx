@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import supabase from '../supabaseClient';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-// 정규식 상수 정의
 const NAME_REGEX = /^[가-힣a-zA-Z]{2,20}$/;
 const EMAIL_REGEX = /\S+@\S+\.\S+/;
-const NICKNAME_REGEX = /^[가-힣a-zA-Z0-9_]{2,15}$/; // 닉네임 정규식
+const NICKNAME_REGEX = /^[가-힣a-zA-Z0-9_]{2,15}$/;
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -15,7 +14,8 @@ const SignUp = () => {
     nickname: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    avatar_url: null
   });
 
   const [errors, setErrors] = useState({});
@@ -33,7 +33,7 @@ const SignUp = () => {
     }
 
     if (!NICKNAME_REGEX.test(formData.nickname)) {
-      newErrors.nickname = '닉네임은 2~15자의 한글, 영문자, 숫자 또는 밑줄(_)만 허용됩니다.';
+      newErrors.nickname = '닉네임은 2~15자의 한글, 영문자, 숫자, _만 허용됩니다.';
     }
 
     if (!EMAIL_REGEX.test(formData.email)) {
@@ -65,14 +65,15 @@ const SignUp = () => {
           options: {
             data: {
               name: formData.name,
-              nickname: formData.nickname
+              nickname: formData.nickname,
+              avatar_url: formData.avatar_url
             }
           }
         });
 
         if (error) {
-          setErrors({ email: '회원가입 중 오류가 발생했습니다: ' + error.message });
-          console.error('회원가입 중 오류 발생:', error);
+          setErrors({ email: '회원가입 오류: ' + error.message });
+          console.error('회원가입 오류:', error);
           return;
         }
 
@@ -80,67 +81,89 @@ const SignUp = () => {
         setFormData({ name: '', nickname: '', email: '', password: '', confirmPassword: '' });
         navigate('/signin');
       } catch (error) {
-        console.error('회원가입 중 오류 발생:', error);
+        console.error('회원가입 오류:', error);
       }
     }
   };
 
   return (
-    <S_SignUpContainer>
-      <S_SignUpTitle>회원가입</S_SignUpTitle>
-      <S_SignUpForm onSubmit={handleSubmit}>
-        <S_SignUpInput
-          className={isSubmitted && errors.name ? 'error' : ''}
-          type="text"
-          name="name"
-          placeholder="이름"
-          value={formData.name}
-          onChange={handleChange}
-        />
-        {isSubmitted && errors.name && <S_SignUpErrorMessage>{errors.name}</S_SignUpErrorMessage>}
-        <S_SignUpInput
-          className={isSubmitted && errors.nickname ? 'error' : ''}
-          type="text"
-          name="nickname"
-          placeholder="닉네임"
-          value={formData.nickname}
-          onChange={handleChange}
-        />
-        {isSubmitted && errors.nickname && <S_SignUpErrorMessage>{errors.nickname}</S_SignUpErrorMessage>}
-        <S_SignUpInput
-          className={isSubmitted && errors.email ? 'error' : ''}
-          type="email"
-          name="email"
-          placeholder="이메일"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        {isSubmitted && errors.email && <S_SignUpErrorMessage>{errors.email}</S_SignUpErrorMessage>}
-        <S_SignUpInput
-          className={isSubmitted && errors.password ? 'error' : ''}
-          type="password"
-          name="password"
-          placeholder="비밀번호는 8글자 이상 입력해주세요."
-          value={formData.password}
-          onChange={handleChange}
-        />
-        {isSubmitted && errors.password && <S_SignUpErrorMessage>{errors.password}</S_SignUpErrorMessage>}
-        <S_SignUpInput
-          className={isSubmitted && errors.confirmPassword ? 'error' : ''}
-          type="password"
-          name="confirmPassword"
-          placeholder="비밀번호 확인"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-        {isSubmitted && errors.confirmPassword && <S_SignUpErrorMessage>{errors.confirmPassword}</S_SignUpErrorMessage>}
-        <S_SignUpButton type="submit">회원가입</S_SignUpButton>
-      </S_SignUpForm>
-    </S_SignUpContainer>
+    <S_SignUpLayout>
+      <S_SignUpContainer>
+        <S_SignUpTitle>
+          <Link to={'/'}>
+            <S_SignUpLogo src="../../public/logo.png" />
+          </Link>
+        </S_SignUpTitle>
+        <S_SignUpForm onSubmit={handleSubmit}>
+          <S_SignUpInput
+            className={isSubmitted && errors.name ? 'error' : ''}
+            type="text"
+            name="name"
+            placeholder="이름"
+            value={formData.name}
+            onChange={handleChange}
+          />
+          {isSubmitted && errors.name && <S_SignUpErrorMessage>{errors.name}</S_SignUpErrorMessage>}
+          <S_SignUpInput
+            className={isSubmitted && errors.nickname ? 'error' : ''}
+            type="text"
+            name="nickname"
+            placeholder="닉네임"
+            value={formData.nickname}
+            onChange={handleChange}
+          />
+          {isSubmitted && errors.nickname && <S_SignUpErrorMessage>{errors.nickname}</S_SignUpErrorMessage>}
+          <S_SignUpInput
+            className={isSubmitted && errors.email ? 'error' : ''}
+            type="email"
+            name="email"
+            placeholder="이메일"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          {isSubmitted && errors.email && <S_SignUpErrorMessage>{errors.email}</S_SignUpErrorMessage>}
+          <S_SignUpInput
+            className={isSubmitted && errors.password ? 'error' : ''}
+            type="password"
+            name="password"
+            placeholder="비밀번호는 8글자 이상 입력해주세요."
+            value={formData.password}
+            onChange={handleChange}
+          />
+          {isSubmitted && errors.password && <S_SignUpErrorMessage>{errors.password}</S_SignUpErrorMessage>}
+          <S_SignUpInput
+            className={isSubmitted && errors.confirmPassword ? 'error' : ''}
+            type="password"
+            name="confirmPassword"
+            placeholder="비밀번호 확인"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+          {isSubmitted && errors.confirmPassword && (
+            <S_SignUpErrorMessage>{errors.confirmPassword}</S_SignUpErrorMessage>
+          )}
+
+          <S_SignUpButton type="submit">회원가입</S_SignUpButton>
+        </S_SignUpForm>
+      </S_SignUpContainer>
+    </S_SignUpLayout>
   );
 };
 
 export default SignUp;
+
+const S_SignUpLogo = styled.img`
+  width: 120px;
+  height: 52px;
+  cursor: pointer;
+`;
+
+const S_SignUpLayout = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+`;
 
 const S_SignUpContainer = styled.div`
   max-width: 400px;
@@ -148,8 +171,10 @@ const S_SignUpContainer = styled.div`
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: black;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  height: 450px;
 `;
 
 const S_SignUpTitle = styled.h2`
@@ -191,12 +216,9 @@ const S_SignUpButton = styled.button`
   padding: 10px;
   border: none;
   border-radius: 4px;
-  background-color: lightgrey;
-  color: #fff;
+  background-color: #ff2f00;
+  color: white;
+  font-weight: bold;
   font-size: 16px;
   cursor: pointer;
-
-  &:hover {
-    background-color: #40a9ff;
-  }
 `;

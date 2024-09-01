@@ -119,8 +119,9 @@ export const S_Nav = styled.nav`
 
 // footer css start //
 export const S_Footer = styled.div`
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
+  margin-top: 100px;
   background: black;
   color: white;
   width: 100vw;
