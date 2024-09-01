@@ -1,40 +1,47 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { PostContext } from '../context/PostContextProvider';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
+import '../globalStyle.css';
 
 const DetailPost = () => {
   const { id } = useParams();
   const { posts, deletePosts } = useContext(PostContext); // deletePost 함수 가져오기
   const navigate = useNavigate(); // useNavigate 훅 사용
 
-  // 디버깅을 위한 콘솔 로그 추가
-  console.log('URL에서 가져온 ID:', id);
-  console.log('Context에서 가져온 Posts:', posts);
-
   // user 가 특정되면 주석 풀기
   // if (!user) {
   //   return <Navigate to="/signin" />;
   // }
+  // 📝 TODO: 지금 접속한 유저가 detail 페이지의 post를 작성한 유저#와 일치할 때만 수정/삭제 버튼 보이도록 수정
 
+  useEffect(() => {
+    if (posts.length === 0) return;
+    const post = posts.find((post) => post.post_id === Number(id));
+    if (!post) {
+      alert('일치하는 게시물이 없습니다! 홈 화면으로 이동합니다!');
+      navigate('/');
+    }
+  }, [posts, id, navigate]);
+
+  // 로딩 중 메시지를 바로 반환
   if (posts.length === 0) return <p>로딩중...</p>;
 
-  const post = posts.find((post) => post.post_id === Number(id)); // 문자열로 비교
+  const post = posts.find((post) => post.post_id === Number(id));
 
   if (!post) {
-    return <p>텅!</p>;
+    return null;
   }
 
   const handleDelete = async () => {
-    if (window.confirm('진짜 삭제할거?')) {
-      await deletePosts(post.id);
+    if (window.confirm('삭제하겠습니까?')) {
+      await deletePosts(post.post_id);
       navigate('/');
     }
   };
 
   return (
     <>
-      <GlobalStyle />
       <S_PostSectionWrapper>
         <S_PostSection>
           <div>
@@ -104,15 +111,6 @@ const DetailPost = () => {
 
 export default DetailPost;
 
-const GlobalStyle = createGlobalStyle`
-  html,
-  body {
-    background-color: #FCFCFC;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-`;
 const S_PostSectionWrapper = styled.section`
   margin-top: 3rem;
   margin-bottom: 5rem;

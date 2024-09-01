@@ -38,7 +38,8 @@ const PostContextProvider = ({ children }) => {
         project_end_date,
         tech_stack,
         thumbnail_url,
-        author_id: user.id
+        author_id: user.id,
+        author_nickname: user.nickname
       })
       .select();
 
@@ -52,7 +53,7 @@ const PostContextProvider = ({ children }) => {
   };
 
   const deletePosts = async (id) => {
-    const { error } = await supabase.from('DEV_POSTS').delete().eq('id', id);
+    const { error } = await supabase.from('DEV_POSTS').delete().eq('post_id', id);
 
     if (error) {
       console.error('🚀 ~ deletePost ~ error:', error);
