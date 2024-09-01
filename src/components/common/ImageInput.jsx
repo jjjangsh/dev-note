@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const ImageInput = ({ label, value, setValue, ...props }) => {
+const ImageInput = ({ label, value, setValue, prevThumbnailUrl, ...props }) => {
   const inputRef = useRef(null);
 
   const handleButtonClick = () => {
@@ -12,7 +12,7 @@ const ImageInput = ({ label, value, setValue, ...props }) => {
     const file = e.target.files[0];
 
     if (!file) {
-      console.error('ImageInput > line 15: 파일이 존재하지 않습니다.');
+      console.error('ImageInput ~ file: 파일이 존재하지 않습니다.');
       return;
     }
     setValue(file); // 상위 컴포넌트의 state에 실제 첨부된 file 전달 -> supabase에 insert
@@ -34,6 +34,12 @@ const ImageInput = ({ label, value, setValue, ...props }) => {
     if (inputRef.current) inputRef.current.value = '';
   };
 
+  useEffect(() => {
+    if (prevThumbnailUrl) {
+      setPreviewUrl(prevThumbnailUrl);
+    }
+  }, []);
+
   return (
     <div>
       <button onClick={handleButtonClick}>
@@ -43,7 +49,8 @@ const ImageInput = ({ label, value, setValue, ...props }) => {
       {previewUrl && (
         <div>
           <S_previewImg src={previewUrl} alt="썸네일 미리보기" />
-          <span>{value.name}</span> <S_DeleteSpan onClick={handleDeleteThumbnail}>x</S_DeleteSpan>
+          <span>{value ? value.name : '기존 썸네일'}</span>
+          <S_DeleteSpan onClick={handleDeleteThumbnail}>x</S_DeleteSpan>
         </div>
       )}
     </div>

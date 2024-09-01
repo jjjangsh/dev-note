@@ -1,10 +1,11 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { PostContext } from '../context/PostContextProvider.jsx';
+import PostingForm from '../components/posting/PostingForm.jsx';
 
 const EditPost = () => {
   const { id } = useParams();
-  const { getPostContents } = useContext(PostContext);
+  const { getPostContents, editPost } = useContext(PostContext);
   const {
     content: prevContent,
     project_end_date: prevProjectEndDate,
@@ -15,25 +16,29 @@ const EditPost = () => {
   } = getPostContents(+id);
 
   const [newPostContents, setNewPostContents] = useState({
+    id: +id,
     title: prevTitle,
     content: prevContent,
     project_start_date: prevProjectStartDate,
     project_end_date: prevProjectEndDate,
-    tech_stack: prevTechStack,
-    thumbnail_url: prevThumbnailUrl,
+    tech_stack: prevTechStack.join(' '),
     thumbnail: null
   });
 
-  console.log(newPostContents.title);
+  const navigate = useNavigate();
+  const handleEditPost = async () => {
+    await editPost(newPostContents);
+    navigate(`/detailpost/${id}`, { replace: true });
+  };
+
   return (
-    <div>
-      <input
-        value={newPostContents.title}
-        onChange={(e) => {
-          setNewPostContents({ ...newPostContents, title: e.target.value });
-        }}
-      />
-    </div>
+    <PostingForm
+      type="editPost"
+      postContents={newPostContents}
+      setPostContents={setNewPostContents}
+      handleSubmit={handleEditPost}
+      prevThumbnailUrl={prevThumbnailUrl}
+    />
   );
 };
 

@@ -2,8 +2,8 @@ import ImageInput from '../common/ImageInput.jsx';
 import styled from 'styled-components';
 import Button from '../common/Button.jsx';
 
-const PostingForm = ({ type, postContents, setPostContents, handleSubmit }) => {
-  const { title, content, project_start_date, project_end_date, tech_stack, thumbnail, thumbnail_url } = postContents;
+const PostingForm = ({ type, postContents, setPostContents, handleSubmit, prevThumbnailUrl }) => {
+  const { title, content, project_start_date, project_end_date, tech_stack, thumbnail } = postContents;
   const setThumbnail = (file) => {
     setPostContents({ ...postContents, thumbnail: file });
   };
@@ -16,7 +16,12 @@ const PostingForm = ({ type, postContents, setPostContents, handleSubmit }) => {
       </S_PageDescriptionContainer>
       <S_InputFieldContainer>
         <h3>썸네일</h3>
-        <ImageInput label="썸네일 선택하기" value={thumbnail} setValue={setThumbnail} />
+        <ImageInput
+          label="썸네일 선택하기"
+          value={thumbnail}
+          setValue={setThumbnail}
+          prevThumbnailUrl={prevThumbnailUrl}
+        />
       </S_InputFieldContainer>
       <S_InputFieldContainer>
         <h3>기술 스택</h3>
