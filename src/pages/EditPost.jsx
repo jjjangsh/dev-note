@@ -1,20 +1,38 @@
 import { useParams } from 'react-router-dom';
-import { Suspense, useContext } from 'react';
+import { useContext, useState } from 'react';
 import { PostContext } from '../context/PostContextProvider.jsx';
-import useFetchDataForRender from '../hooks/useFetchDataForRender.js';
 
 const EditPost = () => {
   const { id } = useParams();
   const { getPostContents } = useContext(PostContext);
-  const { data, isLoading } = useFetchDataForRender(getPostContents, +id);
+  const {
+    content: prevContent,
+    project_end_date: prevProjectEndDate,
+    project_start_date: prevProjectStartDate,
+    tech_stack: prevTechStack,
+    thumbnail_url: prevThumbnailUrl,
+    title: prevTitle
+  } = getPostContents(+id);
 
-  const selectEl = () => {
-    if (!isLoading) return <div>{data.title}</div>;
-  };
+  const [newPostContents, setNewPostContents] = useState({
+    title: prevTitle,
+    content: prevContent,
+    project_start_date: prevProjectStartDate,
+    project_end_date: prevProjectEndDate,
+    tech_stack: prevTechStack,
+    thumbnail_url: prevThumbnailUrl,
+    thumbnail: null
+  });
 
+  console.log(newPostContents.title);
   return (
     <div>
-      <Suspense fallback={<div>Loading Data...</div>}>{selectEl()}</Suspense>
+      <input
+        value={newPostContents.title}
+        onChange={(e) => {
+          setNewPostContents({ ...newPostContents, title: e.target.value });
+        }}
+      />
     </div>
   );
 };
