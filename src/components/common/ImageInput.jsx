@@ -34,10 +34,29 @@ const ImageInput = ({ label, value, setValue, prevThumbnailUrl, ...props }) => {
     if (inputRef.current) inputRef.current.value = '';
   };
 
+  const urlToFile = async (url) => {
+    if (!url) return;
+    const response = await fetch(url);
+    const blob = await response.blob();
+
+    return new File([blob], 'thumbnail', { type: blob.type });
+  };
+
   useEffect(() => {
-    if (prevThumbnailUrl) {
-      setPreviewUrl(prevThumbnailUrl);
-    }
+    let isMounted = true;
+
+    (async () => {
+      const prevThumbnailFile = await urlToFile(prevThumbnailUrl);
+
+      if (isMounted) {
+        setValue(prevThumbnailFile);
+        createPreviewUrl(prevThumbnailFile);
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
@@ -49,7 +68,7 @@ const ImageInput = ({ label, value, setValue, prevThumbnailUrl, ...props }) => {
       {previewUrl && (
         <div>
           <S_previewImg src={previewUrl} alt="썸네일 미리보기" />
-          <span>{value ? value.name : '기존 썸네일'}</span>
+          <span>{value.name}</span>
           <S_DeleteSpan onClick={handleDeleteThumbnail}>x</S_DeleteSpan>
         </div>
       )}
