@@ -52,19 +52,7 @@ const PostContextProvider = ({ children }) => {
     }
   };
 
-  const getPostContents = async (id) => {
-    try {
-      const { data, error: fetchError } = await supabase.from('DEV_POSTS').select('*').eq('post_id', id);
-
-      if (fetchError) {
-        console.error('getPostContents ~ error:', fetchError);
-      }
-
-      return data[0];
-    } catch (error) {
-      console.error('getPostContents ~ Unexpected Error: ', error);
-    }
-  };
+  const getPostContents = (id) => posts.find((post) => post.post_id === id);
 
   const editPost = async ({ title, content, project_start_date, project_end_date, tech_stack, thumbnail }) => {
     tech_stack = tech_stack.split(' ');
