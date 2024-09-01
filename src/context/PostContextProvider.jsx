@@ -52,7 +52,18 @@ const PostContextProvider = ({ children }) => {
     }
   };
 
-  return <PostContext.Provider value={{ posts, addPosts }}>{children}</PostContext.Provider>;
+  const deletePosts = async (id) => {
+    const { error } = await supabase.from('DEV_POSTS').delete().eq('post_id', id);
+
+    if (error) {
+      console.error('🚀 ~ deletePost ~ error:', error);
+    } else {
+      alert('게시물이 삭제되었습니다.');
+      fetchPosts(); // 삭제 후 게시물 목록을 다시 불러오는 부분
+    }
+  };
+
+  return <PostContext.Provider value={{ posts, addPosts, deletePosts }}>{children}</PostContext.Provider>;
 };
 
 export default PostContextProvider;

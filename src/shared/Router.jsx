@@ -51,9 +51,13 @@ const Router = () => {
           element: <NewPost />
         },
         {
-          path: 'editpost',
+          path: 'editpost/:id', // 해당 id 수정 페이지로 이동으로 변경
           element: <EditPost />
         }
+        // {
+        //   path: 'editpost',
+        //   element: <EditPost />
+        // }
       ]
     }
   ];
