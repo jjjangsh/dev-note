@@ -38,7 +38,8 @@ const PostContextProvider = ({ children }) => {
         project_end_date,
         tech_stack,
         thumbnail_url,
-        author_id: user.id
+        author_id: user.id,
+        author_nickname: user.nickname
       })
       .select();
 
