@@ -3,10 +3,12 @@ import { PostContext } from '../context/PostContextProvider';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import '../globalStyle.css';
+import { UserContext } from '../context/UserContextProvider';
 
 const DetailPost = () => {
   const { id } = useParams();
   const { posts, deletePosts } = useContext(PostContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -16,6 +18,7 @@ const DetailPost = () => {
   // if (!user) {
   //   return <Navigate to="/signin" />;
   // }
+
   // 📝 TODO: 지금 접속한 유저가 detail 페이지의 post를 작성한 유저#와 일치할 때만 수정/삭제 버튼 보이도록 수정
 
   useEffect(() => {
@@ -41,6 +44,10 @@ const DetailPost = () => {
       navigate('/');
     }
   };
+  const isAuthor = post.author_id === user.id;
+  console.log(id);
+  console.log(user);
+  console.log(post);
 
   return (
     <>
@@ -63,22 +70,25 @@ const DetailPost = () => {
           <S_PostInfoBarWrapper>
             <S_PostInfoBar>
               <S_PostInfo>{post.author_nickname}</S_PostInfo>
-              <S_PostInfoActionBar>
-                <S_PostInfo>
-                  <Link
-                    to={`/auth/editpost/${post.post_id}`}
+              {isAuthor && (
+                <S_PostInfoActionBar>
+                  <S_PostInfo>
+                    <Link
+                      to={`/auth/editpost/${post.post_id}`}
+                      style={{ textDecoration: 'underline', color: 'grey', fontSize: 'small' }}
+                    >
+                      수정
+                    </Link>
+                  </S_PostInfo>
+
+                  <S_PostInfo
+                    onClick={handleDelete}
                     style={{ textDecoration: 'underline', color: 'grey', fontSize: 'small' }}
                   >
-                    수정
-                  </Link>
-                </S_PostInfo>
-                <S_PostInfo
-                  onClick={handleDelete}
-                  style={{ textDecoration: 'underline', color: 'grey', fontSize: 'small' }}
-                >
-                  삭제
-                </S_PostInfo>
-              </S_PostInfoActionBar>
+                    삭제
+                  </S_PostInfo>
+                </S_PostInfoActionBar>
+              )}
             </S_PostInfoBar>
           </S_PostInfoBarWrapper>
           <img
@@ -158,7 +168,11 @@ const S_PostInfoActionBar = styled.div`
   justify-content: end;
   gap: 1rem;
 `;
-
+const S_PostInfo = styled.p`
+  color: #007bff;
+  font-size: 14px;
+  cursor: pointer;
+`;
 const S_ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -178,12 +192,6 @@ const StyledImage = styled.img`
   max-height: 80vh;
   height: auto;
   object-fit: contain;
-`;
-
-const S_PostInfo = styled.p`
-  color: #007bff;
-  font-size: 14px;
-  cursor: pointer;
 `;
 
 const S_PostInfoTimeWrapper = styled.div`
