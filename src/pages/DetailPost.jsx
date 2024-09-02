@@ -24,7 +24,6 @@ const DetailPost = () => {
     }
   }, [posts, id, navigate]);
 
-  // 로딩 중 메시지를 바로 반환
   if (posts.length === 0) return <p>로딩중...</p>;
 
   const post = posts.find((post) => post.post_id === Number(id));
