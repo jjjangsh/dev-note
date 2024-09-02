@@ -62,6 +62,7 @@ const PostingForm = ({ type, postContents, setPostContents, handleSubmit, prevTh
               setPostContents({ ...postContents, project_start_date: e.target.value });
             }}
           />
+          <span>~</span>
           <S_Input
             type="date"
             value={project_end_date}
@@ -101,17 +102,21 @@ const S_InputFieldContainer = styled.div`
 
   & > h3 {
     font-weight: 600;
+    margin-right: 5px;
   }
 `;
 
 const S_DateContainer = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 10px;
 
-  & > * {
+  & > input {
     width: 150px;
     padding-left: 5px;
+  }
+
+  & > h4 {
+    line-height: 15px;
   }
 `;
 
