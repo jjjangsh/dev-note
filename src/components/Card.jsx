@@ -33,7 +33,6 @@ const Card = ({ item }) => {
             return <S_Stack key={index}>#{stackItem}</S_Stack>;
           })}
         </S_StackContainer>
-
         <S_Title>{item.title}</S_Title>
         <S_Content>{item.content}</S_Content>
         <S_FlexBox>
