@@ -43,9 +43,6 @@ const DetailPost = () => {
     }
   };
   const isAuthor = post.author_id === user.id;
-  console.log(id);
-  console.log(user);
-  console.log(post);
 
   return (
     <>
