@@ -5,12 +5,17 @@ import { UserContext } from '../context/UserContextProvider';
 import ImageInput from '../components/common/ImageInput';
 
 const MyPage = () => {
+  let prevAvatar = null;
   const { user, setUser } = useContext(UserContext);
   const [formData, setFormData] = useState({
     name: user?.name || '',
     nickname: user?.nickname || '',
     avatar_url: user?.avatar_url || ''
   });
+  const setPrevAvatar = (file) => {
+    prevAvatar = file;
+    setFormData({ ...formData, avatar_url: file });
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,7 +32,7 @@ const MyPage = () => {
         return;
       }
 
-      const avatarUrl = supabase.storage.from('avatars').getPublicUrl(data.path).publicURL;
+      const avatarUrl = supabase.storage.from('avatars').getPublicUrl(data.path).data.publicUrl;
 
       setFormData({ ...formData, avatar_url: avatarUrl });
     }
@@ -36,15 +41,17 @@ const MyPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    let updateObj = {
+      name: formData.name,
+      nickname: formData.nickname
+    };
+
+    if (prevAvatar !== formData.avatar_url) {
+      updateObj = { ...updateObj, avatar_url: formData.avatar_url };
+    }
+
     try {
-      const { error } = await supabase
-        .from('profile')
-        .update({
-          name: formData.name,
-          nickname: formData.nickname,
-          avatar_url: formData.avatar_url
-        })
-        .eq('id', user.id);
+      const { error } = await supabase.from('profile').update(updateObj).eq('id', user.id);
 
       if (error) {
         console.error('정보 수정 오류:', error);
@@ -77,8 +84,9 @@ const MyPage = () => {
             value={formData.avatar_url}
             setValue={handleImageChange} // 파일이 변경될 때 호출되는 함수
             prevThumbnailUrl={formData.avatar_url}
+            setPrevThumbnail={setPrevAvatar}
           />
-          <S_MyPageButton type="submit">정보 수정</S_MyPageButton>
+          <S_MyPageButton type="button">정보 수정</S_MyPageButton>
         </S_MyPageForm>
       </S_MyPageContainer>
     </S_MyPageLayout>

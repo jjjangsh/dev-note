@@ -70,7 +70,7 @@ export const UserContextProvider = ({ children }) => {
     if (error) {
       console.error('로그아웃 오류:', error);
     } else {
-      alert('로그아웃 처리가 완료 되었습니다. 메인 페이지로 이동합니다.');
+      alert('로그아웃 처리가 완료 되었습니다.');
       setUser(null);
     }
   };
