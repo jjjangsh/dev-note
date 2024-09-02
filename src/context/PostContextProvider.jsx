@@ -54,27 +54,22 @@ const PostContextProvider = ({ children }) => {
 
   const getPostContents = (id) => posts.find((post) => post.post_id === id);
 
-  const editPost = async ({ id, title, content, project_start_date, project_end_date, tech_stack, thumbnail }) => {
-    tech_stack = tech_stack.split(' ');
+  const editPost = async (id, prevColumns, newColumns) => {
+    const updateColumns = {};
 
-    // thumbnail type 확인해서 file이면 getImageURL 아니면 그대로 insert하기
-    const thumbnail_url = await getImageURL(thumbnail, 'thumbnails');
+    if (prevColumns.title !== newColumns.title) updateColumns.title = newColumns.title;
+    if (prevColumns.tech_stack !== newColumns.tech_stack) updateColumns.tech_stack = newColumns.tech_stack.split(' ');
+    if (prevColumns.content !== newColumns.content) updateColumns.content = newColumns.content;
+    if (prevColumns.project_start_date !== newColumns.project_start_date)
+      updateColumns.project_start_date = newColumns.project_start_date;
+    if (prevColumns.project_end_date !== newColumns.project_end_date)
+      updateColumns.project_end_date = newColumns.project_end_date;
+    if (prevColumns.thumbnail !== newColumns.thumbnail)
+      updateColumns.thumbnail_url = await getImageURL(newColumns.thumbnail, 'thumbnails');
 
     // TODO: 민영 - 유효성검사 추가
 
-    const { error: tableError } = await supabase
-      .from('DEV_POSTS')
-      .update({
-        title,
-        content,
-        project_start_date,
-        project_end_date,
-        tech_stack,
-        thumbnail_url,
-        author_id: user.id
-      })
-      .eq('post_id', id)
-      .select();
+    const { error: tableError } = await supabase.from('DEV_POSTS').update(updateColumns).eq('post_id', id).select();
 
     if (tableError) {
       console.log('🚀 ~ addPosts ~ tableError:', tableError);

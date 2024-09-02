@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const ImageInput = ({ label, value, setValue, prevThumbnailUrl, ...props }) => {
+const ImageInput = ({ label, value, setValue, prevThumbnailUrl, setPrevThumbnail, ...props }) => {
   const inputRef = useRef(null);
 
   const handleButtonClick = () => {
@@ -48,9 +48,10 @@ const ImageInput = ({ label, value, setValue, prevThumbnailUrl, ...props }) => {
     (async () => {
       const prevThumbnailFile = await urlToFile(prevThumbnailUrl);
 
-      if (isMounted) {
+      if (isMounted && prevThumbnailFile) {
         setValue(prevThumbnailFile);
         createPreviewUrl(prevThumbnailFile);
+        setPrevThumbnail(prevThumbnailFile);
       }
     })();
 
