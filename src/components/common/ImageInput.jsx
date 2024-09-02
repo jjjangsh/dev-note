@@ -69,7 +69,7 @@ const ImageInput = ({ label, value, setValue, prevThumbnailUrl, setPrevThumbnail
       {previewUrl && (
         <div>
           <S_previewImg src={previewUrl} alt="썸네일 미리보기" />
-          <span>{value.name}</span>
+          <span>{value?.name}</span>
           <S_DeleteSpan onClick={handleDeleteThumbnail}>x</S_DeleteSpan>
         </div>
       )}
