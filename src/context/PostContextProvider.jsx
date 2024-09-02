@@ -46,9 +46,41 @@ const PostContextProvider = ({ children }) => {
     if (tableError) {
       console.log('🚀 ~ addPosts ~ tableError:', tableError);
     } else {
-      fetchPosts();
+      await fetchPosts();
       alert('프로젝트가 정상적으로 등록되었습니다.');
       return uploadPost[0].post_id;
+    }
+  };
+
+  const getPostContents = (id) => posts.find((post) => post.post_id === id);
+
+  const editPost = async ({ id, title, content, project_start_date, project_end_date, tech_stack, thumbnail }) => {
+    tech_stack = tech_stack.split(' ');
+
+    // thumbnail type 확인해서 file이면 getImageURL 아니면 그대로 insert하기
+    const thumbnail_url = await getImageURL(thumbnail, 'thumbnails');
+
+    // TODO: 민영 - 유효성검사 추가
+
+    const { error: tableError } = await supabase
+      .from('DEV_POSTS')
+      .update({
+        title,
+        content,
+        project_start_date,
+        project_end_date,
+        tech_stack,
+        thumbnail_url,
+        author_id: user.id
+      })
+      .eq('post_id', id)
+      .select();
+
+    if (tableError) {
+      console.log('🚀 ~ addPosts ~ tableError:', tableError);
+    } else {
+      await fetchPosts();
+      alert('프로젝트가 정상적으로 등록되었습니다.');
     }
   };
 
@@ -63,7 +95,11 @@ const PostContextProvider = ({ children }) => {
     }
   };
 
-  return <PostContext.Provider value={{ posts, addPosts, deletePosts }}>{children}</PostContext.Provider>;
+  return (
+    <PostContext.Provider value={{ posts, addPosts, getPostContents, editPost, deletePosts }}>
+      {children}
+    </PostContext.Provider>
+  );
 };
 
 export default PostContextProvider;
