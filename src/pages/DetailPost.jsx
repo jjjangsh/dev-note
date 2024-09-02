@@ -19,8 +19,6 @@ const DetailPost = () => {
   //   return <Navigate to="/signin" />;
   // }
 
-  // 📝 TODO: 지금 접속한 유저가 detail 페이지의 post를 작성한 유저#와 일치할 때만 수정/삭제 버튼 보이도록 수정
-
   useEffect(() => {
     if (posts.length === 0) return;
     const post = posts.find((post) => post.post_id === Number(id));
@@ -60,9 +58,12 @@ const DetailPost = () => {
           </S_TagSection>
           <h1
             style={{
+              width: '80%',
               fontSize: '2.5rem',
               fontWeight: '800',
-              marginTop: '1rem'
+              marginTop: '1rem',
+              textAlign: 'center',
+              lineHeight: '1.2'
             }}
           >
             {post.title}
@@ -107,7 +108,8 @@ const DetailPost = () => {
               {post.project_start_date} ~ {post.project_end_date}
             </p>
           </S_PostInfoTimeWrapper>
-          <p style={{ fontWeight: '400', fontSize: '1rem', lineHeight: '1.6' }}>{post.content}</p>
+
+          <S_PostContent>{post.content}</S_PostContent>
         </S_PostSection>
       </S_PostSectionWrapper>
     </>
@@ -123,20 +125,22 @@ const S_PostSectionWrapper = styled.section`
   flex-direction: column;
   align-items: center;
 `;
-
 const S_PostSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  width: 80%;
+  width: 60%;
 `;
-
 const S_TagSection = styled.section`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
+  margin-bottom: -1rem;
+  width: 50%;
 `;
 const S_Tag = styled.span`
   font-size: 0.8rem;
@@ -146,7 +150,6 @@ const S_Tag = styled.span`
   border-radius: 100px;
   white-space: nowrap;
 `;
-
 const S_PostInfoBarWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -193,10 +196,17 @@ const StyledImage = styled.img`
   height: auto;
   object-fit: contain;
 `;
-
 const S_PostInfoTimeWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
   width: 100%;
+`;
+const S_PostContent = styled.p`
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.6;
+  align-items: center;
+  text-align: center;
+  width: 80%;
 `;
