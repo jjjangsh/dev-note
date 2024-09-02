@@ -66,7 +66,7 @@ const SignIn = () => {
             className={isSubmitted && errors.email ? 'error' : ''}
             type="email"
             name="email"
-            placeholder="이메일"
+            placeholder="이메일을 입력해주세요."
             value={formData.email}
             onChange={handleChange}
           />
@@ -75,7 +75,7 @@ const SignIn = () => {
             className={isSubmitted && errors.password ? 'error' : ''}
             type="password"
             name="password"
-            placeholder="비밀번호"
+            placeholder="비밀번호를 입력해주세요."
             value={formData.password}
             onChange={handleChange}
           />
@@ -108,7 +108,7 @@ const S_LoginContainer = styled.div`
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: black;
+  background-color: #44484f;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   width: 400px;
   height: 287px;
@@ -132,6 +132,7 @@ const S_LoginInput = styled.input`
   border-radius: 4px;
   font-size: 16px;
   outline: none;
+  background-color: #e4e7ed;
 
   &:focus {
     border-color: #40a9ff;
@@ -153,7 +154,7 @@ const S_LoginButton = styled.button`
   padding: 10px;
   border: none;
   border-radius: 4px;
-  background-color: #ff2f00;
+  background-color: #36d0d2;
   color: white;
   font-weight: bold;
   font-size: 16px;

@@ -64,7 +64,6 @@ export const UserContextProvider = ({ children }) => {
       authListener.subscription.unsubscribe();
     };
   }, []);
-  console.log(user);
 
   const HandleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -72,6 +71,7 @@ export const UserContextProvider = ({ children }) => {
       console.error('로그아웃 오류:', error);
     } else {
       alert('로그아웃 처리가 완료 되었습니다. 메인 페이지로 이동합니다.');
+      setUser(null);
     }
   };
 
