@@ -1,21 +1,25 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import Card from '../components/Card';
+import { S_HomeTitle, S_CardContainer, S_AddNewPostBtn } from '../styled/StyledHome';
+
 import { PostContext } from '../context/PostContextProvider';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const { posts } = useContext(PostContext);
-  console.log('Posts loaded in Home component:', posts);
+  const nav = useNavigate();
   return (
-    <div>
-      <h1>Posts</h1>
-      {posts.map((post) => (
-        <div key={post.id}>
-          <Link to={`/detailpost/${post.post_id}`}>
-            <h2>{post.title}</h2>
-          </Link>
-        </div>
-      ))}
-    </div>
+    <>
+      <S_HomeTitle>
+        Dev-note <S_AddNewPostBtn onClick={() => nav('/auth/newPost')}></S_AddNewPostBtn>
+      </S_HomeTitle>
+
+      <S_CardContainer>
+        {posts.map((item) => {
+          return <Card key={item.post_id} item={item} />;
+        })}
+      </S_CardContainer>
+    </>
   );
 };
 

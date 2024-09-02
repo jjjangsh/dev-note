@@ -8,9 +8,11 @@ import supabase from '../supabaseClient';
  * @returns {string} uploadImg의 URL
  */
 export const getImageURL = async (uploadImg, bucket, folder) => {
-  let imageUrl = '';
+  let imageUrl = null;
   const imgName = `${Date.now()}-${crypto.randomUUID()}`;
   const imgPath = `${folder || 'public'}/${imgName}`;
+
+  if (!uploadImg) return imageUrl;
 
   try {
     const { data: uploadData, error: uploadError } = await supabase.storage
