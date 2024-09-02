@@ -6,28 +6,23 @@ import PostingForm from '../components/posting/PostingForm.jsx';
 const EditPost = () => {
   const { id } = useParams();
   const { getPostContents, editPost } = useContext(PostContext);
-  const {
-    content: prevContent,
-    project_end_date: prevProjectEndDate,
-    project_start_date: prevProjectStartDate,
-    tech_stack: prevTechStack,
-    thumbnail_url: prevThumbnailUrl,
-    title: prevTitle
-  } = getPostContents(+id);
+  const prevContents = getPostContents(+id);
+  const setPrevThumbnail = (file) => {
+    prevContents.thumbnail = file;
+  };
 
   const [newPostContents, setNewPostContents] = useState({
-    id: +id,
-    title: prevTitle,
-    content: prevContent,
-    project_start_date: prevProjectStartDate,
-    project_end_date: prevProjectEndDate,
-    tech_stack: prevTechStack.join(' '),
+    title: prevContents.title,
+    content: prevContents.content,
+    project_start_date: prevContents.project_start_date,
+    project_end_date: prevContents.project_end_date,
+    tech_stack: prevContents.tech_stack.join(' '),
     thumbnail: null
   });
 
   const navigate = useNavigate();
   const handleEditPost = async () => {
-    await editPost(newPostContents);
+    await editPost(+id, prevContents, newPostContents);
     navigate(`/detailpost/${id}`, { replace: true });
   };
 
@@ -37,7 +32,8 @@ const EditPost = () => {
       postContents={newPostContents}
       setPostContents={setNewPostContents}
       handleSubmit={handleEditPost}
-      prevThumbnailUrl={prevThumbnailUrl}
+      prevThumbnailUrl={prevContents.thumbnail_url}
+      setPrevThumbnail={setPrevThumbnail}
     />
   );
 };

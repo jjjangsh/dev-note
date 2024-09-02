@@ -17,8 +17,9 @@ const Card = ({ item }) => {
     nav(`/detailpost/${item.post_id}`);
   };
 
-  // 날짜
-  const formattedDate = format(parseISO(item.created_at), 'yy.MM.dd HH:mm');
+  // 날짜 project_end_date
+  const formattedDate_start = format(parseISO(item.project_start_date), 'yy.MM.dd');
+  const formattedDate_end = format(parseISO(item.project_end_date), 'yy.MM.dd');
 
   return (
     <S_Card onClick={handleDetail}>
@@ -37,7 +38,9 @@ const Card = ({ item }) => {
         <S_Content>{item.content}</S_Content>
         <S_FlexBox>
           <span>{item.author_nickname}</span>
-          <span>{formattedDate}</span>
+          <span>
+            {formattedDate_start}~{formattedDate_end}
+          </span>
         </S_FlexBox>
       </S_TextArea>
     </S_Card>

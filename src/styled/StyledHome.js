@@ -1,4 +1,12 @@
 import styled from 'styled-components';
+export const S_AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+export const S_OutletConatiner = styled.div`
+  flex: 1;
+`;
 // Home css start //
 export const S_HomeTitle = styled.h1`
   position: relative;
@@ -8,7 +16,6 @@ export const S_HomeTitle = styled.h1`
   margin: 0 auto;
   padding-top: 50px;
   font-weight: 600;
-  border-bottom: 1px solid gray;
 `;
 export const S_AddNewPostBtn = styled.span`
   position: absolute;
@@ -107,7 +114,7 @@ export const S_Logo = styled.img`
   cursor: pointer;
 `;
 export const S_Nav = styled.nav`
-  background-color: black;
+  background-color: #44484f;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -119,9 +126,9 @@ export const S_Nav = styled.nav`
 
 // footer css start //
 export const S_Footer = styled.div`
-  position: fixed;
+  position: relative;
   bottom: 0;
-  background: black;
+  background: #44484f;
   color: white;
   width: 100vw;
   height: 100px;

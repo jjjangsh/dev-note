@@ -2,7 +2,7 @@ import ImageInput from '../common/ImageInput.jsx';
 import styled from 'styled-components';
 import Button from '../common/Button.jsx';
 
-const PostingForm = ({ type, postContents, setPostContents, handleSubmit, prevThumbnailUrl }) => {
+const PostingForm = ({ type, postContents, setPostContents, handleSubmit, prevThumbnailUrl, setPrevThumbnail }) => {
   const { title, content, project_start_date, project_end_date, tech_stack, thumbnail } = postContents;
   const setThumbnail = (file) => {
     setPostContents({ ...postContents, thumbnail: file });
@@ -21,6 +21,7 @@ const PostingForm = ({ type, postContents, setPostContents, handleSubmit, prevTh
           value={thumbnail}
           setValue={setThumbnail}
           prevThumbnailUrl={prevThumbnailUrl}
+          setPrevThumbnail={setPrevThumbnail}
         />
       </S_InputFieldContainer>
       <S_InputFieldContainer>
