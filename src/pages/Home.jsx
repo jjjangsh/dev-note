@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const { posts } = useContext(PostContext);
+
   const nav = useNavigate();
   return (
     <>

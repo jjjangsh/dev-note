@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import supabase from '../supabaseClient';
 
@@ -41,47 +41,66 @@ const SignIn = () => {
 
         if (error) {
           setErrors({ email: '이메일 또는 비밀번호가 잘못되었습니다.' });
-          console.error('로그인 중 오류 발생:', error);
+          console.error('로그인 오류:', error);
           return;
         }
 
         alert('로그인 성공! 메인 페이지로 이동합니다.');
         navigate('/');
       } catch (error) {
-        console.error('로그인 중 오류 발생:', error);
+        console.error('로그인 오류:', error);
       }
     }
   };
 
   return (
-    <S_LoginContainer>
-      <S_LoginTitle>로그인</S_LoginTitle>
-      <S_LoginForm onSubmit={handleSubmit}>
-        <S_LoginInput
-          className={isSubmitted && errors.email ? 'error' : ''}
-          type="email"
-          name="email"
-          placeholder="이메일"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        {isSubmitted && errors.email && <S_LoginErrorMessage>{errors.email}</S_LoginErrorMessage>}
-        <S_LoginInput
-          className={isSubmitted && errors.password ? 'error' : ''}
-          type="password"
-          name="password"
-          placeholder="비밀번호"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        {isSubmitted && errors.password && <S_LoginErrorMessage>{errors.password}</S_LoginErrorMessage>}
-        <S_LoginButton type="submit">로그인</S_LoginButton>
-      </S_LoginForm>
-    </S_LoginContainer>
+    <S_SignInLayout>
+      <S_LoginContainer>
+        <S_LoginTitle>
+          <Link to={'/'}>
+            <S_SignInLogo src="../../public/logo.png" />
+          </Link>
+        </S_LoginTitle>
+        <S_LoginForm onSubmit={handleSubmit}>
+          <S_LoginInput
+            className={isSubmitted && errors.email ? 'error' : ''}
+            type="email"
+            name="email"
+            placeholder="이메일을 입력해주세요."
+            value={formData.email}
+            onChange={handleChange}
+          />
+          {isSubmitted && errors.email && <S_LoginErrorMessage>{errors.email}</S_LoginErrorMessage>}
+          <S_LoginInput
+            className={isSubmitted && errors.password ? 'error' : ''}
+            type="password"
+            name="password"
+            placeholder="비밀번호를 입력해주세요."
+            value={formData.password}
+            onChange={handleChange}
+          />
+          {isSubmitted && errors.password && <S_LoginErrorMessage>{errors.password}</S_LoginErrorMessage>}
+          <S_LoginButton type="submit">로그인</S_LoginButton>
+        </S_LoginForm>
+      </S_LoginContainer>
+    </S_SignInLayout>
   );
 };
 
 export default SignIn;
+
+const S_SignInLogo = styled.img`
+  width: 120px;
+  height: 52px;
+  cursor: pointer;
+`;
+
+const S_SignInLayout = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+`;
 
 const S_LoginContainer = styled.div`
   max-width: 400px;
@@ -89,8 +108,10 @@ const S_LoginContainer = styled.div`
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: #44484f;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  height: 287px;
 `;
 
 const S_LoginTitle = styled.h2`
@@ -111,6 +132,7 @@ const S_LoginInput = styled.input`
   border-radius: 4px;
   font-size: 16px;
   outline: none;
+  background-color: #e4e7ed;
 
   &:focus {
     border-color: #40a9ff;
@@ -132,12 +154,9 @@ const S_LoginButton = styled.button`
   padding: 10px;
   border: none;
   border-radius: 4px;
-  background-color: #1890ff;
-  color: #fff;
+  background-color: #36d0d2;
+  color: white;
+  font-weight: bold;
   font-size: 16px;
   cursor: pointer;
-
-  &:hover {
-    background-color: #40a9ff;
-  }
 `;
