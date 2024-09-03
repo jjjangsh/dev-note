@@ -5,13 +5,7 @@ import Card from '../components/Card';
 import { PostContext } from '../context/PostContextProvider';
 import { UserContext } from '../context/UserContextProvider';
 import ImageInput from '../components/common/ImageInput';
-import {
-  S_PostlistContainer,
-  PostlistYear,
-  S_PostlistMonth,
-  S_MonthCardContainer,
-  S_MyPageTitle
-} from '../styled/StyledMypage';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
   let prevAvatar = null;
@@ -22,53 +16,41 @@ const MyPage = () => {
     avatar_url: user?.avatar_url || ''
   });
   const [isEditMode, setIsEditMode] = useState(false);
-
   const setPrevAvatar = (file) => {
     prevAvatar = file;
     setFormData({ ...formData, avatar_url: file });
   };
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const handleImageChange = async (file) => {
     if (file) {
       const { data, error } = await supabase.storage
         .from('avatars')
         .upload(`public/${user.id}/${file.name}`, file, { upsert: true });
-
       if (error) {
         console.error('이미지 업로드 오류:', error);
         return;
       }
-
       const avatarUrl = supabase.storage.from('avatars').getPublicUrl(data.path).data.publicUrl;
-
       setFormData({ ...formData, avatar_url: avatarUrl });
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     let updateObj = {
       name: formData.name,
       nickname: formData.nickname
     };
-
     if (prevAvatar !== formData.avatar_url) {
       updateObj = { ...updateObj, avatar_url: formData.avatar_url };
     }
-
     try {
       const { error } = await supabase.from('profile').update(updateObj).eq('id', user.id);
-
       if (error) {
         console.error('정보 수정 오류:', error);
         return;
       }
-
       setUser({ ...user, ...formData });
       setIsEditMode(false);
       alert('회원정보가 성공적으로 수정되었습니다.');
@@ -78,9 +60,7 @@ const MyPage = () => {
   };
   //----------------------------------
   const { posts } = useContext(PostContext);
-
   const userPosts = posts.filter((post) => post.author_id === user.id);
-
   const septemPost = userPosts.filter((post) => {
     const end_date = post.project_end_date;
     const dateArr = end_date.split('-');
@@ -88,21 +68,18 @@ const MyPage = () => {
     return endMonth === '09';
   });
   console.log(septemPost);
-
   const augPosts = userPosts.filter((post) => {
     const end_date = post.project_end_date;
     const dateArr = end_date.split('-');
     const endMonth = dateArr[1];
     return endMonth === '08';
   });
-
   const julyPosts = userPosts.filter((post) => {
     const end_date = post.project_end_date;
     const dateArr = end_date.split('-');
     const endMonth = dateArr[1];
     return endMonth === '07';
   });
-
   return (
     <S_MyPageLayout>
       <S_MyPageContainer>
@@ -171,7 +148,6 @@ const MyPage = () => {
     </S_MyPageLayout>
   );
 };
-
 export default MyPage;
 
 const S_MyPageLayout = styled.div`
@@ -182,7 +158,6 @@ const S_MyPageLayout = styled.div`
   flex-direction: column;
   min-height: 100vh;
 `;
-
 const S_MyPageContainer = styled.div`
   max-width: 400px;
   margin: 0 auto;
@@ -193,12 +168,10 @@ const S_MyPageContainer = styled.div`
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   width: 400px;
 `;
-
 const S_MyPageForm = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 const S_MyPageInput = styled.input`
   margin-bottom: 10px;
   padding: 10px;
@@ -207,12 +180,10 @@ const S_MyPageInput = styled.input`
   font-size: 16px;
   outline: none;
   background-color: #e4e7ed;
-
   &:focus {
     border-color: #40a9ff;
   }
 `;
-
 const S_MyPageButton = styled.button`
   padding: 10px;
   border: none;
@@ -223,20 +194,17 @@ const S_MyPageButton = styled.button`
   font-size: 16px;
   cursor: pointer;
 `;
-
 const S_ProfileItem = styled.div`
   padding: 10px;
   color: white;
   font-size: 16px;
 `;
-
 const S_ProfileImage = styled.img`
   max-width: 100%;
   height: auto;
   border-radius: 4px;
   margin-top: 10px;
 `;
-
 const S_ProfileTitle = styled.strong`
   font-weight: bold;
   color: #36d0d2;

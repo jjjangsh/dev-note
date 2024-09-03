@@ -92,7 +92,9 @@ const PostingForm = ({
           {dateValidError ? <S_ErrorParagraph>{dateValidError.message}</S_ErrorParagraph> : null}
         </div>
       </S_InputFieldContainer>
-      <S_SubmitButton onClick={handleSubmit}>작성 완료</S_SubmitButton>
+      <Button style={{ position: 'absolute', right: '80px', bottom: '50px' }} onClick={handleSubmit}>
+        작성 완료
+      </Button>
     </S_NewPostLayout>
   );
 };
@@ -162,12 +164,6 @@ const S_ContentTextarea = styled.textarea`
     box-shadow: 0 0 4px #7abeff;
     outline: none;
   }
-`;
-
-const S_SubmitButton = styled(Button)`
-  position: absolute;
-  right: 80px;
-  bottom: 5px;
 `;
 
 const S_ErrorParagraph = styled.p`
