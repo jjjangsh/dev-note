@@ -27,10 +27,6 @@ const PostContextProvider = ({ children }) => {
     tech_stack = tech_stack.split(' ');
     const thumbnail_url = await getImageURL(thumbnail, 'thumbnails');
 
-    // TODO: 민영 - 유효성검사 추가
-    const date1 = await supabase.auth.getSession();
-    console.log(date1);
-
     const { data: uploadPost, error: tableError } = await supabase
       .from('DEV_POSTS')
       .upsert({

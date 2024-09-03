@@ -5,7 +5,13 @@ import Card from '../components/Card';
 import { PostContext } from '../context/PostContextProvider';
 import { UserContext } from '../context/UserContextProvider';
 import ImageInput from '../components/common/ImageInput';
-import { useNavigate } from 'react-router-dom';
+import {
+  S_PostlistContainer,
+  PostlistYear,
+  S_PostlistMonth,
+  S_MonthCardContainer,
+  S_MyPageTitle
+} from '../styled/StyledMypage';
 
 const MyPage = () => {
   let prevAvatar = null;
@@ -140,26 +146,27 @@ const MyPage = () => {
           </>
         )}
       </S_MyPageContainer>
+
       <S_PostlistContainer>
         <PostlistYear>2024년</PostlistYear>
         <S_PostlistMonth>9월</S_PostlistMonth>
-        <div>
+        <S_MonthCardContainer>
           {septemPost.map((post) => {
             return <Card key={post.post_id} item={post} />;
           })}
-        </div>
+        </S_MonthCardContainer>
         <S_PostlistMonth>8월</S_PostlistMonth>
-        <div>
+        <S_MonthCardContainer>
           {augPosts.map((post) => {
             return <Card key={post.post_id} item={post} />;
           })}
-        </div>
+        </S_MonthCardContainer>
         <S_PostlistMonth>7월</S_PostlistMonth>
-        <div>
+        <S_MonthCardContainer>
           {julyPosts.map((post) => {
             return <Card key={post.post_id} item={post} />;
           })}
-        </div>
+        </S_MonthCardContainer>
       </S_PostlistContainer>
     </S_MyPageLayout>
   );
@@ -168,9 +175,11 @@ const MyPage = () => {
 export default MyPage;
 
 const S_MyPageLayout = styled.div`
+  margin-top: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   min-height: 100vh;
 `;
 
@@ -216,7 +225,7 @@ const S_MyPageButton = styled.button`
 `;
 
 const S_ProfileItem = styled.div`
-  margin-bottom: 10px;
+  padding: 10px;
   color: white;
   font-size: 16px;
 `;
@@ -232,48 +241,3 @@ const S_ProfileTitle = styled.strong`
   font-weight: bold;
   color: #36d0d2;
 `;
-
-// ----------------------------------
-
-const PostlistYear = styled.div`
-  position: relative;
-  font-size: 30px;
-  display: block;
-  max-width: 940px;
-  margin: 0 auto;
-  padding-top: 50px;
-  font-weight: 600;
-`;
-
-const S_PostlistMonth = styled.div`
-  position: relative;
-  font-size: 30px;
-  display: block;
-  max-width: 940px;
-  margin: 0 auto;
-  padding-top: 50px;
-  font-weight: 600;
-  border-bottom: 1px solid gray;
-`;
-const S_MyPageTitle = styled.h1`
-  position: relative;
-  font-size: 30px;
-  display: block;
-  max-width: 940px;
-  margin: 0 auto;
-  padding-top: 50px;
-  font-weight: 600;
-  border-bottom: 1px solid gray;
-`;
-
-const S_ProfileContainer = styled.div``;
-const S_SetProfileForm = styled.div``;
-const S_SetProfileEmoji = styled.div``;
-const S_Select = styled.div``;
-const S_option = styled.div``;
-const S_SetProfileNickName = styled.div``;
-const S_SetProfileNickNameInput = styled.div``;
-const S_SetPost = styled.div``;
-const S_ProfileForm = styled.div``;
-
-const S_PostlistContainer = styled.div``;
