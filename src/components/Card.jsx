@@ -25,7 +25,9 @@ const Card = ({ item }) => {
     <S_Card onClick={handleDetail}>
       <S_CardImg
         style={{
-          backgroundImage: item.thumbnail_url ? `url(${item.thumbnail_url})` : `url('../../public/no-img.png')`
+          backgroundImage: item.thumbnail_url
+            ? `url(${item.thumbnail_url})`
+            : `url("https://dev-note-two.vercel.app/no-img.png")`
         }}
       ></S_CardImg>
       <S_TextArea>

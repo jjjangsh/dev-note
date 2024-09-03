@@ -58,7 +58,7 @@ const SignIn = () => {
       <S_LoginContainer>
         <S_LoginTitle>
           <Link to={'/'}>
-            <S_SignInLogo src="../../public/logo.png" />
+            <S_SignInLogo src="https://dev-note-two.vercel.app/logo.png" />
           </Link>
         </S_LoginTitle>
         <S_LoginForm onSubmit={handleSubmit}>
