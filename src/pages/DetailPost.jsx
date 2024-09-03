@@ -48,18 +48,7 @@ const DetailPost = () => {
               <S_Tag key={index}>#{tech}</S_Tag>
             ))}
           </S_TagSection>
-          <h1
-            style={{
-              width: '80%',
-              fontSize: '2.5rem',
-              fontWeight: '800',
-              marginTop: '1rem',
-              textAlign: 'center',
-              lineHeight: '1.2'
-            }}
-          >
-            {post.title}
-          </h1>
+          <S_Title>{post.title}</S_Title>
           <S_PostInfoBarWrapper>
             <S_PostInfoBar>
               <S_PostInfo>{post.author_nickname}</S_PostInfo>
@@ -139,6 +128,16 @@ const S_TagSection = styled.section`
   margin-bottom: -1rem;
   width: 50%;
 `;
+
+const S_Title = styled.h1`
+  width: 80%;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-top: 1rem;
+  text-align: center;
+  line-height: 1.2;
+`;
+
 const S_Tag = styled.span`
   font-size: 0.8rem;
   display: block;
