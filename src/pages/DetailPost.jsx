@@ -14,11 +14,6 @@ const DetailPost = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  // user 가 특정되면 주석 풀기
-  // if (!user) {
-  //   return <Navigate to="/signin" />;
-  // }
-
   useEffect(() => {
     if (posts.length === 0) return;
     const post = posts.find((post) => post.post_id === Number(id));
