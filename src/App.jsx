@@ -3,6 +3,7 @@ import { UserContextProvider } from './context/UserContextProvider';
 import './reset.css';
 import Router from './shared/Router';
 import { S_AppContainer } from './styled/StyledHome';
+import supabase from './supabaseClient';
 
 function App() {
   window.addEventListener('load', async () => {
