@@ -2,15 +2,22 @@ import { useState, useContext } from 'react';
 import { PostContext } from '../context/PostContextProvider';
 import { useNavigate } from 'react-router-dom';
 import PostingForm from '../components/posting/PostingForm.jsx';
+import validatePostForm from '../utils/validateForm.js';
 
 const NewPost = () => {
   const { addPosts } = useContext(PostContext);
   const navigate = useNavigate();
+  const [validErrors, setValidErrors] = useState([]);
 
   const handleAddPost = async () => {
-    const postId = await addPosts(postContents);
-
-    navigate(`/detailpost/${postId}`, { replace: true });
+    const { isValid, errors } = validatePostForm(postContents);
+    if (isValid) {
+      const postId = await addPosts(postContents);
+      navigate(`/detailpost/${postId}`, { replace: true });
+    } else {
+      setValidErrors(errors);
+      console.log('valid error detected');
+    }
   };
 
   const [postContents, setPostContents] = useState({
@@ -28,6 +35,7 @@ const NewPost = () => {
       postContents={postContents}
       setPostContents={setPostContents}
       handleSubmit={handleAddPost}
+      validErrors={validErrors}
     />
   );
 };
