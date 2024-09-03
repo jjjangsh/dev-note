@@ -8,25 +8,53 @@ export const UserContextProvider = ({ children }) => {
 
   useEffect(() => {
     const getSession = async () => {
-      const response = await supabase.auth.getSession();
       const {
-        id,
-        email,
-        user_metadata: { name, nickname }
-      } = response.data.session.user;
-      setUser({ id, email, name, nickname });
+        data: { session },
+        error
+      } = await supabase.auth.getSession();
+      if (error) {
+        console.error('세션 가져오기 오류:', error);
+        return;
+      }
+
+      if (session?.user) {
+        const { id, email, created_at } = session.user;
+
+        const { data: profileData, error: profileError } = await supabase
+          .from('profile')
+          .select('name, nickname, avatar_url')
+          .eq('id', id)
+          .single();
+
+        if (profileError) {
+          console.error('프로필 정보 가져오기 오류:', profileError);
+          return;
+        }
+
+        setUser({ id, email, created_at, ...profileData });
+      } else {
+        setUser(null);
+      }
     };
 
     getSession();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
-        const {
-          id,
-          email,
-          user_metadata: { name, nickname }
-        } = session.user;
-        setUser({ id, email, name, nickname });
+        const { id, email, created_at } = session.user;
+
+        const { data: profileData, error: profileError } = await supabase
+          .from('profile')
+          .select('name, nickname, avatar_url')
+          .eq('id', id)
+          .single();
+
+        if (profileError) {
+          console.error('프로필 정보 가져오기 오류:', profileError);
+          return;
+        }
+
+        setUser({ id, email, created_at, ...profileData });
       } else {
         setUser(null);
       }
@@ -36,14 +64,14 @@ export const UserContextProvider = ({ children }) => {
       authListener.subscription.unsubscribe();
     };
   }, []);
-  console.log(user);
 
   const HandleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
-      console.error('로그아웃 중 오류 발생:', error);
+      console.error('로그아웃 오류:', error);
     } else {
-      alert('로그아웃 처리가 완료 되었습니다. 메인 페이지로 이동합니다.');
+      alert('로그아웃 처리가 완료 되었습니다.');
+      setUser(null);
     }
   };
 

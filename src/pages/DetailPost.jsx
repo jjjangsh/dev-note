@@ -42,7 +42,7 @@ const DetailPost = () => {
       navigate('/');
     }
   };
-  const isAuthor = post.author_id === user.id;
+  const isAuthor = user && post.author_id === user.id;
 
   return (
     <>
@@ -68,25 +68,30 @@ const DetailPost = () => {
           <S_PostInfoBarWrapper>
             <S_PostInfoBar>
               <S_PostInfo>{post.author_nickname}</S_PostInfo>
-              {isAuthor && (
-                <S_PostInfoActionBar>
-                  <S_PostInfo>
-                    <Link
-                      to={`/auth/editpost/${post.post_id}`}
-                      style={{ textDecoration: 'underline', color: 'grey', fontSize: 'small' }}
-                    >
-                      수정
-                    </Link>
-                  </S_PostInfo>
 
-                  <S_PostInfo
-                    onClick={handleDelete}
-                    style={{ textDecoration: 'underline', color: 'grey', fontSize: 'small' }}
-                  >
-                    삭제
-                  </S_PostInfo>
-                </S_PostInfoActionBar>
-              )}
+              {
+                user ? (
+                  isAuthor ? (
+                    // 로그인된 상태이면서 작성자인 경우
+                    <S_PostInfoActionBar>
+                      <S_PostInfo>
+                        <Link
+                          to={`/auth/editpost/${post.post_id}`}
+                          style={{ textDecoration: 'underline', color: 'grey', fontSize: 'small' }}
+                        >
+                          수정
+                        </Link>
+                      </S_PostInfo>
+                      <S_PostInfo
+                        onClick={handleDelete}
+                        style={{ textDecoration: 'underline', color: 'grey', fontSize: 'small' }}
+                      >
+                        삭제
+                      </S_PostInfo>
+                    </S_PostInfoActionBar>
+                  ) : null // 로그인된 상태이지만 작성자가 아닌 경우 아무것도 렌더링하지 않음
+                ) : null // 로그인되지 않은 상태에서도 아무것도 렌더링하지 않음
+              }
             </S_PostInfoBar>
           </S_PostInfoBarWrapper>
           <img
