@@ -49,21 +49,8 @@ export const CommentContextProvider = ({ children }) => {
     }
   };
 
-  // 댓글 수정 함수
-  const editComment = async (commentId, newContent) => {
-    const { error } = await supabase.from('comments').update({ content: newContent }).eq('id', commentId);
-
-    if (error) {
-      console.error('댓글 수정 오류:', error);
-    } else {
-      setComments((prevComments) =>
-        prevComments.map((comment) => (comment.id === commentId ? { ...comment, content: newContent } : comment))
-      );
-    }
-  };
-
   return (
-    <CommentContext.Provider value={{ comments, fetchComments, addComment, deleteComment, editComment }}>
+    <CommentContext.Provider value={{ comments, fetchComments, addComment, deleteComment }}>
       {children}
     </CommentContext.Provider>
   );

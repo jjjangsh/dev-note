@@ -18,12 +18,21 @@ const CommentForm = ({ postId }) => {
     setContent(''); // 댓글 입력창 초기화
   };
 
+  // `Enter` 키를 감지하여 제출하는 이벤트 핸들러
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
   return (
     <S_CommentWrapper>
       <S_CommentForm onSubmit={handleSubmit}>
         <S_CommentTextarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="댓글을 입력해주세요."
           rows="4"
         />
