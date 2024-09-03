@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { PostContext } from '../context/PostContextProvider.jsx';
 import PostingForm from '../components/posting/PostingForm.jsx';
+import validatePostForm from '../utils/validateForm.js';
 
 const EditPost = () => {
   const { id } = useParams();
@@ -20,10 +21,17 @@ const EditPost = () => {
     thumbnail: null
   });
 
+  const [validErrors, setValidErrors] = useState([]);
   const navigate = useNavigate();
   const handleEditPost = async () => {
-    await editPost(+id, prevContents, newPostContents);
-    navigate(`/detailpost/${id}`, { replace: true });
+    const { isValid, errors } = validatePostForm(newPostContents);
+
+    if (isValid) {
+      await editPost(+id, prevContents, newPostContents);
+      navigate(`/detailpost/${id}`, { replace: true });
+    } else {
+      setValidErrors(errors);
+    }
   };
 
   return (
@@ -34,6 +42,7 @@ const EditPost = () => {
       handleSubmit={handleEditPost}
       prevThumbnailUrl={prevContents.thumbnail_url}
       setPrevThumbnail={setPrevThumbnail}
+      validErrors={validErrors}
     />
   );
 };

@@ -16,7 +16,6 @@ const NewPost = () => {
       navigate(`/detailpost/${postId}`, { replace: true });
     } else {
       setValidErrors(errors);
-      console.log('valid error detected');
     }
   };
 

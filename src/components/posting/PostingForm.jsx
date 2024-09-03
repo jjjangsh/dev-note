@@ -11,7 +11,7 @@ const PostingForm = ({
   setPrevThumbnail,
   validErrors
 }) => {
-  const { title, content, tech_stack, thumbnail } = postContents;
+  const { title, content, tech_stack, thumbnail, project_start_date, project_end_date } = postContents;
   const setThumbnail = (file) => {
     setPostContents({ ...postContents, thumbnail: file });
   };
@@ -75,6 +75,7 @@ const PostingForm = ({
           <S_DateContainer>
             <S_Input
               type="date"
+              value={project_start_date}
               onChange={(e) => {
                 setPostContents({ ...postContents, project_start_date: e.target.value });
               }}
@@ -82,6 +83,7 @@ const PostingForm = ({
             <span>~</span>
             <S_Input
               type="date"
+              value={project_end_date}
               onChange={(e) => {
                 setPostContents({ ...postContents, project_end_date: e.target.value });
               }}
