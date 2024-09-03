@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '../common/Button.jsx';
 
 const PostingForm = ({ type, postContents, setPostContents, handleSubmit, prevThumbnailUrl, setPrevThumbnail }) => {
-  const { title, content, project_start_date, project_end_date, tech_stack, thumbnail } = postContents;
+  const { title, content, tech_stack, thumbnail } = postContents;
   const setThumbnail = (file) => {
     setPostContents({ ...postContents, thumbnail: file });
   };
@@ -53,18 +53,16 @@ const PostingForm = ({ type, postContents, setPostContents, handleSubmit, prevTh
       </S_InputFieldContainer>
       <S_InputFieldContainer>
         <h3>프로젝트 진행시기</h3>
-        {/* TODO: 민영 - 처음 페이지 들어왔을 때 value가 없으면 warning 뜨는 듯함 */}
         <S_DateContainer>
           <S_Input
             type="date"
-            value={project_start_date}
             onChange={(e) => {
               setPostContents({ ...postContents, project_start_date: e.target.value });
             }}
           />
+          <span>~</span>
           <S_Input
             type="date"
-            value={project_end_date}
             onChange={(e) => {
               setPostContents({ ...postContents, project_end_date: e.target.value });
             }}
@@ -101,17 +99,21 @@ const S_InputFieldContainer = styled.div`
 
   & > h3 {
     font-weight: 600;
+    margin-right: 5px;
   }
 `;
 
 const S_DateContainer = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 10px;
 
-  & > * {
+  & > input {
     width: 150px;
     padding-left: 5px;
+  }
+
+  & > h4 {
+    line-height: 15px;
   }
 `;
 
