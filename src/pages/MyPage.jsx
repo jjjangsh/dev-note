@@ -1,8 +1,11 @@
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import supabase from '../supabaseClient';
+import Card from '../components/Card';
+import { PostContext } from '../context/PostContextProvider';
 import { UserContext } from '../context/UserContextProvider';
 import ImageInput from '../components/common/ImageInput';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
   let prevAvatar = null;
@@ -67,6 +70,32 @@ const MyPage = () => {
       console.error('정보 수정 오류:', error);
     }
   };
+  //----------------------------------
+  const { posts } = useContext(PostContext);
+
+  const userPosts = posts.filter((post) => post.author_id === user.id);
+
+  const septemPost = userPosts.filter((post) => {
+    const end_date = post.project_end_date;
+    const dateArr = end_date.split('-');
+    const endMonth = dateArr[1];
+    return endMonth === '09';
+  });
+  console.log(septemPost);
+
+  const augPosts = userPosts.filter((post) => {
+    const end_date = post.project_end_date;
+    const dateArr = end_date.split('-');
+    const endMonth = dateArr[1];
+    return endMonth === '08';
+  });
+
+  const julyPosts = userPosts.filter((post) => {
+    const end_date = post.project_end_date;
+    const dateArr = end_date.split('-');
+    const endMonth = dateArr[1];
+    return endMonth === '07';
+  });
 
   return (
     <S_MyPageLayout>
@@ -111,6 +140,27 @@ const MyPage = () => {
           </>
         )}
       </S_MyPageContainer>
+      <S_PostlistContainer>
+        <PostlistYear>2024년</PostlistYear>
+        <S_PostlistMonth>9월</S_PostlistMonth>
+        <div>
+          {septemPost.map((post) => {
+            return <Card key={post.post_id} item={post} />;
+          })}
+        </div>
+        <S_PostlistMonth>8월</S_PostlistMonth>
+        <div>
+          {augPosts.map((post) => {
+            return <Card key={post.post_id} item={post} />;
+          })}
+        </div>
+        <S_PostlistMonth>7월</S_PostlistMonth>
+        <div>
+          {julyPosts.map((post) => {
+            return <Card key={post.post_id} item={post} />;
+          })}
+        </div>
+      </S_PostlistContainer>
     </S_MyPageLayout>
   );
 };
@@ -133,13 +183,6 @@ const S_MyPageContainer = styled.div`
   background-color: #44484f;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   width: 400px;
-`;
-
-const S_MyPageTitle = styled.h2`
-  text-align: center;
-  margin-bottom: 20px;
-  color: white;
-  font-weight: bold;
 `;
 
 const S_MyPageForm = styled.div`
@@ -189,3 +232,48 @@ const S_ProfileTitle = styled.strong`
   font-weight: bold;
   color: #36d0d2;
 `;
+
+// ----------------------------------
+
+const PostlistYear = styled.div`
+  position: relative;
+  font-size: 30px;
+  display: block;
+  max-width: 940px;
+  margin: 0 auto;
+  padding-top: 50px;
+  font-weight: 600;
+`;
+
+const S_PostlistMonth = styled.div`
+  position: relative;
+  font-size: 30px;
+  display: block;
+  max-width: 940px;
+  margin: 0 auto;
+  padding-top: 50px;
+  font-weight: 600;
+  border-bottom: 1px solid gray;
+`;
+const S_MyPageTitle = styled.h1`
+  position: relative;
+  font-size: 30px;
+  display: block;
+  max-width: 940px;
+  margin: 0 auto;
+  padding-top: 50px;
+  font-weight: 600;
+  border-bottom: 1px solid gray;
+`;
+
+const S_ProfileContainer = styled.div``;
+const S_SetProfileForm = styled.div``;
+const S_SetProfileEmoji = styled.div``;
+const S_Select = styled.div``;
+const S_option = styled.div``;
+const S_SetProfileNickName = styled.div``;
+const S_SetProfileNickNameInput = styled.div``;
+const S_SetPost = styled.div``;
+const S_ProfileForm = styled.div``;
+
+const S_PostlistContainer = styled.div``;
