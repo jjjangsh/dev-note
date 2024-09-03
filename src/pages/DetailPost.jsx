@@ -1,13 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 import { PostContext } from '../context/PostContextProvider';
+import { CommentContext } from '../context/CommentContextProvider';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import '../globalStyle.css';
 import { UserContext } from '../context/UserContextProvider';
+import CommentForm from '../components/comment/CommentForm';
+import CommentList from '../components/comment/CommentList'; // 추가
 
 const DetailPost = () => {
   const { id } = useParams();
   const { posts, deletePosts } = useContext(PostContext);
+  const { fetchComments } = useContext(CommentContext);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,6 +26,10 @@ const DetailPost = () => {
       navigate('/');
     }
   }, [posts, id, navigate]);
+
+  useEffect(() => {
+    fetchComments(id); // postId에 해당하는 댓글 가져오기
+  }, [id, fetchComments]);
 
   if (posts.length === 0) return <p>로딩중...</p>;
 
@@ -54,9 +62,9 @@ const DetailPost = () => {
               <S_PostInfo>{post.author_nickname}</S_PostInfo>
 
               {
+                // <----로그인된 사용자면서 작성자인 경우 조건부 렌더링!--->
                 user ? (
                   isAuthor ? (
-                    // 로그인된 상태이면서 작성자인 경우
                     <S_PostInfoActionBar>
                       <S_PostInfo>
                         <Link
@@ -73,8 +81,8 @@ const DetailPost = () => {
                         삭제
                       </S_PostInfo>
                     </S_PostInfoActionBar>
-                  ) : null // 로그인된 상태이지만 작성자가 아닌 경우 아무것도 렌더링하지 않음
-                ) : null // 로그인되지 않은 상태에서도 아무것도 렌더링하지 않음
+                  ) : null
+                ) : null
               }
             </S_PostInfoBar>
           </S_PostInfoBarWrapper>
@@ -86,7 +94,7 @@ const DetailPost = () => {
           />
           {isModalOpen && (
             <S_ModalOverlay onClick={closeModal}>
-              <StyledImage src={post.thumbnail_url} alt="썸네일 자세히보기" />
+              <S_StyledImage src={post.thumbnail_url} alt="썸네일 자세히보기" />
             </S_ModalOverlay>
           )}
           <S_PostInfoTimeWrapper>
@@ -96,6 +104,12 @@ const DetailPost = () => {
           </S_PostInfoTimeWrapper>
 
           <S_PostContent>{post.content}</S_PostContent>
+
+          {/* 댓글 폼 */}
+          <CommentForm postId={post.post_id} />
+
+          {/* 댓글 리스트 */}
+          <CommentList comments={post.post_id} />
         </S_PostSection>
       </S_PostSectionWrapper>
     </>
@@ -184,7 +198,7 @@ const S_ModalOverlay = styled.div`
   justify-content: center;
   cursor: pointer;
 `;
-const StyledImage = styled.img`
+const S_StyledImage = styled.img`
   min-width: 300px;
   max-width: 80vw;
   min-height: 400px;
