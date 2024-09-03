@@ -32,7 +32,7 @@ export const S_HomeTitle = styled.h1`
 export const S_AddNewPostBtn = styled.span`
   width: 30px;
   height: 30px;
-  background-image: url(../../public/add-btn-black.png);
+  background-image: url('https://dev-note-two.vercel.app/add-btn-black.png');
   background-size: cover;
   cursor: pointer;
   transition: transform 0.3s ease;
