@@ -16,9 +16,9 @@ const PostingForm = ({
     setPostContents({ ...postContents, thumbnail: file });
   };
 
-  const dateValidError = validErrors.find((error) => error.type === 'date');
-  const techstackValidError = validErrors.find((error) => error.type === 'tech_stack');
-  const titleValidError = validErrors.find((error) => error.type === 'title');
+  const dateValidError = validErrors?.find((error) => error.type === 'date');
+  const techstackValidError = validErrors?.find((error) => error.type === 'tech_stack');
+  const titleValidError = validErrors?.find((error) => error.type === 'title');
 
   return (
     <S_NewPostLayout>
