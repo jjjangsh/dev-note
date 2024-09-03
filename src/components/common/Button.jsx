@@ -16,7 +16,7 @@ const S_Button = styled.div`
   padding: 16px 20px;
   font-size: 16px;
   border-radius: 100px;
-  box-shadow: 0 15px 32px #eeeeee;
+  box-shadow: 0 15px 32px #d2d2d2;
   transition-duration: 0.1s;
 
   &:hover {

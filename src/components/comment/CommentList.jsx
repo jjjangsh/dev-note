@@ -1,4 +1,3 @@
-// src/components/comment/CommentList.jsx
 import { useContext } from 'react';
 import { CommentContext } from '../../context/CommentContextProvider';
 import { UserContext } from '../../context/UserContextProvider';
@@ -21,7 +20,7 @@ const CommentList = () => {
 
   return (
     <S_CommentListWrapper>
-      <h3 style={{ fontSize: '2rem' }}>💌</h3>
+      <h3 style={{ fontSize: '2rem', marginTop: '1rem' }}>💌</h3>
       <S_CommentList>
         {comments.map((comment) => (
           <S_Comment key={comment.id}>
@@ -59,17 +58,14 @@ const S_Comment = styled.div`
   gap: 8rem;
 `;
 const S_Button = styled.div`
-  background-color: #ffffff;
-  color: #2a2a2a;
-  padding: 8px 10px;
-  font-size: 11px;
+  color: #b2b2b2;
+  font-weight: 500;
+  padding: 12px 18px;
+  font-size: 13px;
   border-radius: 100px;
-  box-shadow: 0 15px 32px #eeeeee;
   transition-duration: 0.1s;
   &:hover {
-    background-color: #ff00001a;
-  }
-  &:active {
-    background-color: #ff00005e;
+    color: #ff2a2a;
+    background-color: #ffeded;
   }
 `;

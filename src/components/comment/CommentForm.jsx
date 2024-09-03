@@ -27,7 +27,7 @@ const CommentForm = ({ postId }) => {
           placeholder="댓글을 입력해주세요."
           rows="4"
         />
-        <S_CommentButton type="submit">댓글 작성</S_CommentButton>
+        <S_CommentButton type="submit">작성하기</S_CommentButton>
       </S_CommentForm>
     </S_CommentWrapper>
   );
@@ -36,6 +36,7 @@ const CommentForm = ({ postId }) => {
 export default CommentForm;
 
 const S_CommentWrapper = styled.div`
+  margin-top: 3rem;
   display: flex;
   align-content: center;
   flex-direction: column;
@@ -43,13 +44,12 @@ const S_CommentWrapper = styled.div`
 `;
 
 const S_CommentForm = styled.form`
-  /* 'form' 요소로 변경 */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   flex-direction: row;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1.2rem;
 `;
 
 const S_CommentTextarea = styled.input`
@@ -69,16 +69,15 @@ const S_CommentTextarea = styled.input`
 `;
 
 const S_CommentButton = styled.button`
-  /* 'button' 요소로 변경 */
-  background-color: #ffffff;
+  background: linear-gradient(to bottom, #fcfcfc, #ffffff);
   color: #2a2a2a;
   padding: 16px 20px;
   font-size: 16px;
   border-radius: 100px;
-  box-shadow: 0 15px 32px #eeeeee;
+  box-shadow: 0 4px 32px #d2d2d2;
   transition-duration: 0.1s;
-  border: none; /* 기본 버튼 테두리 제거 */
-  cursor: pointer; /* 포인터 모양 변경 */
+  border: none;
+  cursor: pointer;
   &:hover {
     background-color: #eeeeee;
   }

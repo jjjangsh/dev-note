@@ -6,7 +6,8 @@ import styled from 'styled-components';
 import '../globalStyle.css';
 import { UserContext } from '../context/UserContextProvider';
 import CommentForm from '../components/comment/CommentForm';
-import CommentList from '../components/comment/CommentList'; // 추가
+import CommentList from '../components/comment/CommentList';
+import ReactMarkdown from 'react-markdown';
 
 const DetailPost = () => {
   const { id } = useParams();
@@ -103,7 +104,10 @@ const DetailPost = () => {
             </p>
           </S_PostInfoTimeWrapper>
 
-          <S_PostContent>{post.content}</S_PostContent>
+          <S_PostContent>
+            {' '}
+            <ReactMarkdown>{post.content}</ReactMarkdown>
+          </S_PostContent>
 
           {/* 댓글 폼 */}
           <CommentForm postId={post.post_id} />
@@ -217,6 +221,7 @@ const S_PostContent = styled.p`
   font-size: 1rem;
   line-height: 1.6;
   align-items: center;
-  text-align: center;
+  text-align: left;
   width: 80%;
+  white-space: pre-wrap;
 `;
