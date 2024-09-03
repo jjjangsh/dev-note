@@ -12,6 +12,8 @@ const MyPage = () => {
     nickname: user?.nickname || '',
     avatar_url: user?.avatar_url || ''
   });
+  const [isEditMode, setIsEditMode] = useState(false);
+
   const setPrevAvatar = (file) => {
     prevAvatar = file;
     setFormData({ ...formData, avatar_url: file });
@@ -58,8 +60,8 @@ const MyPage = () => {
         return;
       }
 
-      // 사용자 정보 갱신
       setUser({ ...user, ...formData });
+      setIsEditMode(false);
       alert('회원정보가 성공적으로 수정되었습니다.');
     } catch (error) {
       console.error('정보 수정 오류:', error);
@@ -69,27 +71,45 @@ const MyPage = () => {
   return (
     <S_MyPageLayout>
       <S_MyPageContainer>
-        <S_MyPageTitle>회원정보 수정</S_MyPageTitle>
-        <S_MyPageForm>
-          <S_MyPageInput type="text" name="name" placeholder="이름" value={formData.name} onChange={handleChange} />
-          <S_MyPageInput
-            type="text"
-            name="nickname"
-            placeholder="닉네임"
-            value={formData.nickname}
-            onChange={handleChange}
-          />
-          <ImageInput
-            label="프로필 이미지 선택"
-            value={formData.avatar_url}
-            setValue={handleImageChange} // 파일이 변경될 때 호출되는 함수
-            prevThumbnailUrl={formData.avatar_url}
-            setPrevThumbnail={setPrevAvatar}
-          />
-          <S_MyPageButton type="button" onClick={handleSubmit}>
-            정보 수정
-          </S_MyPageButton>
-        </S_MyPageForm>
+        <S_MyPageTitle>회원정보</S_MyPageTitle>
+        {isEditMode ? (
+          <S_MyPageForm>
+            <S_MyPageInput type="text" name="name" placeholder="이름" value={formData.name} onChange={handleChange} />
+            <S_MyPageInput
+              type="text"
+              name="nickname"
+              placeholder="닉네임"
+              value={formData.nickname}
+              onChange={handleChange}
+            />
+            <ImageInput
+              label="프로필 이미지 선택"
+              value={formData.avatar_url}
+              setValue={handleImageChange}
+              prevThumbnailUrl={formData.avatar_url}
+              setPrevThumbnail={setPrevAvatar}
+            />
+            <S_MyPageButton type="button" onClick={handleSubmit}>
+              정보 수정 완료
+            </S_MyPageButton>
+          </S_MyPageForm>
+        ) : (
+          <>
+            <S_ProfileItem>
+              <S_ProfileTitle>이름:</S_ProfileTitle> {formData.name}
+            </S_ProfileItem>
+            <S_ProfileItem>
+              <S_ProfileTitle>닉네임:</S_ProfileTitle> {formData.nickname}
+            </S_ProfileItem>
+            <S_ProfileItem>
+              <S_ProfileTitle>프로필 이미지:</S_ProfileTitle>
+              <S_ProfileImage src={formData.avatar_url} alt="프로필 이미지" />
+            </S_ProfileItem>
+            <S_MyPageButton type="button" onClick={() => setIsEditMode(true)}>
+              정보 수정
+            </S_MyPageButton>
+          </>
+        )}
       </S_MyPageContainer>
     </S_MyPageLayout>
   );
@@ -150,4 +170,22 @@ const S_MyPageButton = styled.button`
   font-weight: bold;
   font-size: 16px;
   cursor: pointer;
+`;
+
+const S_ProfileItem = styled.div`
+  margin-bottom: 10px;
+  color: white;
+  font-size: 16px;
+`;
+
+const S_ProfileImage = styled.img`
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-top: 10px;
+`;
+
+const S_ProfileTitle = styled.strong`
+  font-weight: bold;
+  color: #36d0d2;
 `;
