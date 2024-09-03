@@ -14,7 +14,7 @@ const CommentForm = ({ postId }) => {
     // 유효성 검사: 로그인 여부 확인
     if (!user) {
       alert('로그인 하지 않으면 댓글을 작성하실 수 없어요!');
-      return;
+      setContent('');
     }
 
     if (!content.trim()) {

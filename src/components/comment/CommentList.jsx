@@ -64,6 +64,7 @@ const S_Button = styled.div`
   font-size: 13px;
   border-radius: 100px;
   transition-duration: 0.1s;
+  cursor: pointer;
   &:hover {
     color: #ff2a2a;
     background-color: #ffeded;
