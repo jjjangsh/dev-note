@@ -8,18 +8,28 @@ export const S_OutletConatiner = styled.div`
   flex: 1;
 `;
 // Home css start //
-export const S_HomeTitle = styled.h1`
-  position: relative;
-  font-size: 30px;
-  display: block;
-  max-width: 940px;
+export const S_HomeTitleContainer = styled.div`
+  max-width: 963px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #8080807d;
   margin: 0 auto;
-  padding-top: 50px;
+  padding: 50px 0 18px;
+
+  @media (max-width: 978px) {
+    width: 630px;
+  }
+  @media (max-width: 648px) {
+    width: 300px;
+  }
+`;
+export const S_HomeTitle = styled.h1`
+  font-size: 30px;
+  display: inline-block;
+  max-width: 940px;
   font-weight: 600;
 `;
 export const S_AddNewPostBtn = styled.span`
-  position: absolute;
-  right: 0;
   width: 30px;
   height: 30px;
   background-image: url(../../public/add-btn-black.png);
@@ -66,11 +76,11 @@ export const S_CardImg = styled.div`
 export const S_TextArea = styled.div`
   padding: 20px;
   line-height: 25px;
-  height: 160px;
+  height: 180px;
 `;
 export const S_StackContainer = styled.div`
   line-height: 16px;
-  height: 20px;
+  height: 33px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -79,8 +89,10 @@ export const S_Stack = styled.div`
   font-size: 11px;
   font-weight: 500;
   border-radius: 10px;
-  padding-right: 10px;
+  padding: 4px 5px;
+  margin-right: 10px;
   display: inline-block;
+  border: 1px solid #c0c0c07d;
 `;
 export const S_Title = styled.div`
   font-size: 15px;
@@ -105,6 +117,8 @@ export const S_FlexBox = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: 11px;
+  border-top: 1px solid #c0c0c07d;
+  padding-top: 7px;
 `;
 // Card css end
 
