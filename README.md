@@ -58,7 +58,10 @@
 - // 이미지영역
 
 - 마이페이지
-- // 이미지영역
+</br> ![마이페이지1](![D791884B-D377-4B46-B745-F73BC3187CE0_1_201_a](https://github.com/user-attachments/assets/2c61878b-4945-464b-9b38-524b829bf5cf))
+</br> ![마이페이지2](![E935D304-DE28-430D-BE0E-779BB83AFE42_1_201_a](https://github.com/user-attachments/assets/6edb721d-6e54-48f3-bc65-52b3283dae89)
+)
+
 
   ## 🔗협업 링크
   [✨ NOTION](https://www.notion.so/teamsparta/2-2-fbcbe36868a04569a5536a6b5bf3dd62)
