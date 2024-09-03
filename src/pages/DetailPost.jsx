@@ -105,7 +105,6 @@ const DetailPost = () => {
           </S_PostInfoTimeWrapper>
 
           <S_PostContent>
-            {' '}
             <ReactMarkdown>{post.content}</ReactMarkdown>
           </S_PostContent>
 
