@@ -46,7 +46,7 @@
 </br>![회원정보수정](https://github.com/user-attachments/assets/0fa8b01a-6b83-4172-9652-14e4ce365157)
 
 - 메인 페이지
-- // 이미지영역
+</br> ![메인](https://github.com/user-attachments/assets/fbd2e9ed-053d-4978-98d2-5849b47e58d0)
 
 - 디테일 페이지
 - // 이미지영역
