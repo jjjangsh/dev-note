@@ -51,11 +51,15 @@
 - 디테일 페이지
 - // 이미지영역
 
-- 글 등록 페이지
-- // 이미지영역
+- 글 등록/수정 페이지
+</br> ![스크린샷 2024-09-04 오전 12 46 52](https://github.com/user-attachments/assets/827a76e3-996d-41d9-a663-5f220eaacc03)
 
-- 글 등록 페이지 수정 삭제
-- // 이미지영역
+</br> ![ImageInput](https://github.com/user-attachments/assets/f645efc9-08aa-45be-9ad5-bf08a4cd4e40)
+
+</br>
+
+- 글 등록 페이지 유효성 검사
+</br> ![유효성검사](https://github.com/user-attachments/assets/c798b38e-db62-494f-be82-d91dcd6bb502)
 
 - 마이페이지
 </br> ![마이페이지1](![D791884B-D377-4B46-B745-F73BC3187CE0_1_201_a](https://github.com/user-attachments/assets/2c61878b-4945-464b-9b38-524b829bf5cf))
