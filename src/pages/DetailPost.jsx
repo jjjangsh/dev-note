@@ -87,7 +87,7 @@ const DetailPost = () => {
             </S_PostInfoBar>
           </S_PostInfoBarWrapper>
           <img
-            src={post.thumbnail_url ? post.thumbnail_url : '/no-img.png'}
+            src={post.thumbnail_url ? post.thumbnail_url : 'https://dev-note-two.vercel.app/no-img.png'}
             alt={post.title}
             style={{ fontSize: '0.8rem', maxWidth: '100%', height: 'auto', maxHeight: '400px', cursor: 'pointer' }}
             onClick={openModal}

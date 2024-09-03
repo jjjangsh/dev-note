@@ -77,7 +77,7 @@ const SignUp = () => {
           return;
         }
 
-        alert('회원가입 완료! 로그인 페이지로 이동합니다.');
+        alert('회원가입 완료! 메인 페이지로 이동합니다.');
         setFormData({ name: '', nickname: '', email: '', password: '', confirmPassword: '' });
         navigate('/signin');
       } catch (error) {
@@ -91,7 +91,7 @@ const SignUp = () => {
       <S_SignUpContainer>
         <S_SignUpTitle>
           <Link to={'/'}>
-            <S_SignUpLogo src="../../public/logo.png" />
+            <S_SignUpLogo src="https://dev-note-two.vercel.app/logo.png" />
           </Link>
         </S_SignUpTitle>
         <S_SignUpForm onSubmit={handleSubmit}>

@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <>
       <S_Nav>
-        <S_Logo src="../logo.png" onClick={handleLogoClick} />
+        <S_Logo src="https://dev-note-two.vercel.app/logo.png" onClick={handleLogoClick} />
         <div>
           {user ? (
             <>
