@@ -21,8 +21,8 @@ const validatePostForm = (input) => {
     });
   }
 
-  const start_date = input.project_start_date.split('-').join('');
-  const end_date = input.project_end_date.split('-').join('');
+  const start_date = input.project_start_date?.split('-').join('');
+  const end_date = input.project_end_date?.split('-').join('');
   if (+start_date > +end_date) {
     isValid = false;
     errors.push({
