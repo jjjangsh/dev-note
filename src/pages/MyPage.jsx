@@ -5,8 +5,13 @@ import Card from '../components/Card';
 import { PostContext } from '../context/PostContextProvider';
 import { UserContext } from '../context/UserContextProvider';
 import ImageInput from '../components/common/ImageInput';
-import { useNavigate } from 'react-router-dom';
-
+import {
+  S_PostlistContainer,
+  PostlistYear,
+  S_PostlistMonth,
+  S_MonthCardContainer,
+  S_MyPageTitle
+} from '../styled/StyledMypage';
 const MyPage = () => {
   let prevAvatar = null;
   const { user, setUser } = useContext(UserContext);
@@ -123,7 +128,6 @@ const MyPage = () => {
           </>
         )}
       </S_MyPageContainer>
-
       <S_PostlistContainer>
         <PostlistYear>2024년</PostlistYear>
         <S_PostlistMonth>9월</S_PostlistMonth>
