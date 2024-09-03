@@ -70,7 +70,7 @@ const MyPage = () => {
     <S_MyPageLayout>
       <S_MyPageContainer>
         <S_MyPageTitle>회원정보 수정</S_MyPageTitle>
-        <S_MyPageForm onSubmit={handleSubmit}>
+        <S_MyPageForm>
           <S_MyPageInput type="text" name="name" placeholder="이름" value={formData.name} onChange={handleChange} />
           <S_MyPageInput
             type="text"
@@ -86,7 +86,9 @@ const MyPage = () => {
             prevThumbnailUrl={formData.avatar_url}
             setPrevThumbnail={setPrevAvatar}
           />
-          <S_MyPageButton type="button">정보 수정</S_MyPageButton>
+          <S_MyPageButton type="button" onClick={handleSubmit}>
+            정보 수정
+          </S_MyPageButton>
         </S_MyPageForm>
       </S_MyPageContainer>
     </S_MyPageLayout>
@@ -120,7 +122,7 @@ const S_MyPageTitle = styled.h2`
   font-weight: bold;
 `;
 
-const S_MyPageForm = styled.form`
+const S_MyPageForm = styled.div`
   display: flex;
   flex-direction: column;
 `;
