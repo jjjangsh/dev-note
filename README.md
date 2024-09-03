@@ -28,22 +28,22 @@
 
 ## 주요기능
 - 로그인
-</br>![로그인](https://github.com/user-attachments/assets/8f5a4934-4259-4c0e-b29d-6487b1034e88)
+</br><img src="https://github.com/user-attachments/assets/8f5a4934-4259-4c0e-b29d-6487b1034e88" width="300" height="200"/>
 
 - 로그인 유효성 검사
-</br>![로그인 유효성](https://github.com/user-attachments/assets/726e45e4-4b42-4c23-a328-03b5c7cda64e)
+</br><img src="https://github.com/user-attachments/assets/726e45e4-4b42-4c23-a328-03b5c7cda64e" width="300" height="200"/>
 
 - 회원가입
-</br>![회원가입](https://github.com/user-attachments/assets/e1604510-993f-457e-bf0b-a191db7dee03)
+</br><img src="https://github.com/user-attachments/assets/e1604510-993f-457e-bf0b-a191db7dee03" width="300" height="300"/>
 
 - 회원가입 유효성 검사
-</br>![회원가입 유효성](https://github.com/user-attachments/assets/a381425a-9449-4a6e-82df-49a381aad5b7)
+</br><img src="https://github.com/user-attachments/assets/a381425a-9449-4a6e-82df-49a381aad5b7" width="300" height="300"/>
 
 - 회원정보
-</br>![회원정보](https://github.com/user-attachments/assets/157a9d90-7815-420a-b8f3-97262f1111da)
+</br><img src="https://github.com/user-attachments/assets/157a9d90-7815-420a-b8f3-97262f1111da" width="300" height="350"/>
 
 - 회원정보수정
-</br>![회원정보수정](https://github.com/user-attachments/assets/0fa8b01a-6b83-4172-9652-14e4ce365157)
+</br><img src="https://github.com/user-attachments/assets/0fa8b01a-6b83-4172-9652-14e4ce365157" width="300" height="350"/>
 
 - 메인 페이지
 </br> ![메인](https://github.com/user-attachments/assets/fbd2e9ed-053d-4978-98d2-5849b47e58d0)
