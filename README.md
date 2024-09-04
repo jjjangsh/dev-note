@@ -61,7 +61,7 @@
 </br>
 
 ## 기술 스택
-|언어|전역상태관리|DB|
+|라이브러리|전역상태관리|DB|
 |------|---|---|
 | <div align="center">REACT</div> | <div align="center">CONTEXT API</div> | <div align="center">SUPABASE</div> |
 
