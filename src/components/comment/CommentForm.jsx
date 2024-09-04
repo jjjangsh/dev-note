@@ -7,6 +7,7 @@ const CommentForm = ({ postId }) => {
   const { addComment } = useContext(CommentContext);
   const { user } = useContext(UserContext); // 현재 로그인한 사용자 정보 가져오기
   const [content, setContent] = useState('');
+  const [isComposing, setIsComposing] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,10 +30,19 @@ const CommentForm = ({ postId }) => {
 
   // Enter 키 감지, Shift+Enter= 줄바꿈
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
       e.preventDefault();
       handleSubmit(e);
     }
+  };
+  // 한글 입력 조합 상태 시작
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  };
+
+  // 한글 입력 조합 상태 끝
+  const handleCompositionEnd = () => {
+    setIsComposing(false);
   };
 
   return (
@@ -42,6 +52,8 @@ const CommentForm = ({ postId }) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onKeyDown={handleKeyDown}
+          onCompositionStart={handleCompositionStart}
+          onCompositionEnd={handleCompositionEnd}
           placeholder="댓글을 입력해주세요."
           rows="4"
         />
