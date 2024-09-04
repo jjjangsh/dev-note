@@ -34,7 +34,7 @@ export const CommentContextProvider = ({ children }) => {
       console.error('댓글 작성 오류:', error);
     } else {
       const newComment = data[0]; // 추가된 댓글의 첫 번째 항목을 가져옴
-      setComments((prevComments) => [...prevComments, newComment]); // 새 댓글을 기존 댓글 리스트에 추가
+      setComments((prevComments) => [newComment, ...prevComments]);
     }
   };
 
