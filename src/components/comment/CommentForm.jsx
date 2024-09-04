@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const CommentForm = ({ postId }) => {
   const { addComment } = useContext(CommentContext);
-  const { user } = useContext(UserContext); // 현재 로그인한 사용자 정보 가져오기
+  const { user } = useContext(UserContext);
   const [content, setContent] = useState('');
   const [isComposing, setIsComposing] = useState(false);
 
@@ -28,19 +28,18 @@ const CommentForm = ({ postId }) => {
     setContent(''); // 댓글 입력창 초기화
   };
 
-  // Enter 키 감지, Shift+Enter= 줄바꿈
+  // Enter 키 감지
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
+    if (e.key === 'Enter' && !isComposing) {
       e.preventDefault();
       handleSubmit(e);
     }
   };
-  // 한글 입력 조합 상태 시작
+  // <------- 한글 입력 조합 상태 -------> //
   const handleCompositionStart = () => {
     setIsComposing(true);
   };
 
-  // 한글 입력 조합 상태 끝
   const handleCompositionEnd = () => {
     setIsComposing(false);
   };

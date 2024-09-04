@@ -63,7 +63,7 @@ const DetailPost = () => {
               <S_PostInfo>{post.author_nickname}</S_PostInfo>
 
               {
-                // <----로그인된 사용자면서 작성자인 경우 조건부 렌더링!--->
+                // <----로그인된 사용자면서 작성자인 경우 조건부 렌더링!---> //
                 isAuthor ? (
                   <S_PostInfoActionBar>
                     <S_PostInfo>
