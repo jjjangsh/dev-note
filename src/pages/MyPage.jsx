@@ -47,10 +47,16 @@ const MyPage = () => {
       name: formData.name,
       nickname: formData.nickname
     };
+
     if (prevAvatar !== formData.avatar_url) {
-      updateObj = { ...updateObj, avatar_url: formData.avatar_url };
+      console.log('img changed');
+
+      updateObj = { ...updateObj, avatar_url: 'https://cdn.imweb.me/upload/S201807025b39d1981b0b0/5cac274d00b12.jpg' };
     }
+
     try {
+      console.log('updateObj', updateObj);
+      updateObj = { ...updateObj, avatar_url: 'https://cdn.imweb.me/upload/S201807025b39d1981b0b0/5cac274d00b12.jpg' };
       const { error } = await supabase.from('profile').update(updateObj).eq('id', user.id);
       if (error) {
         console.error('정보 수정 오류:', error);
@@ -72,7 +78,7 @@ const MyPage = () => {
     const endMonth = dateArr[1];
     return endMonth === '09';
   });
-  console.log(septemPost);
+
   const augPosts = userPosts.filter((post) => {
     const end_date = post.project_end_date;
     const dateArr = end_date.split('-');
