@@ -15,9 +15,11 @@ const CommentForm = ({ postId }) => {
     if (!user) {
       alert('로그인 하지 않으면 댓글을 작성하실 수 없어요!');
       setContent('');
+      return;
     }
 
     if (!content.trim()) {
+      alert('내용을 입력해주세요.');
       return; // 빈 댓글 방지
     }
 
