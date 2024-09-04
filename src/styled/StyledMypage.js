@@ -9,6 +9,7 @@ export const PostlistYear = styled.div`
   padding-top: 50px;
   font-weight: 600;
 `;
+
 export const S_PostlistMonth = styled.div`
   font-size: 30px;
   padding: 50px 0 10px;

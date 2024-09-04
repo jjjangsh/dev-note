@@ -140,16 +140,26 @@ export const S_Nav = styled.nav`
 
 // footer css start //
 export const S_Footer = styled.div`
-  position: relative;
-  bottom: 0;
   background: #44484f;
   color: white;
-  width: 100vw;
   height: 100px;
+  line-height: 100px;
+`;
+export const S_FooterInfo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 export const S_FooterP = styled.p`
   font-size: 13px;
   text-align: center;
-  line-height: 100px;
+  display: inline-block;
+`;
+export const S_FooterGit = styled.a`
+  width: 40px;
+  height: 40px;
+  padding-left: 10px;
+  background-image: url('/public/git-logo.png');
+  background-size: contain;
 `;
 // footer css end //
