@@ -5,8 +5,9 @@ import styled from 'styled-components';
 
 const CommentForm = ({ postId }) => {
   const { addComment } = useContext(CommentContext);
-  const { user } = useContext(UserContext); // 현재 로그인한 사용자 정보 가져오기
+  const { user } = useContext(UserContext);
   const [content, setContent] = useState('');
+  const [isComposing, setIsComposing] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,9 +16,11 @@ const CommentForm = ({ postId }) => {
     if (!user) {
       alert('로그인 하지 않으면 댓글을 작성하실 수 없어요!');
       setContent('');
+      return;
     }
 
     if (!content.trim()) {
+      alert('내용을 입력해주세요.');
       return; // 빈 댓글 방지
     }
 
@@ -25,12 +28,20 @@ const CommentForm = ({ postId }) => {
     setContent(''); // 댓글 입력창 초기화
   };
 
-  // Enter 키 감지, Shift+Enter= 줄바꿈
+  // Enter 키 감지
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !isComposing) {
       e.preventDefault();
       handleSubmit(e);
     }
+  };
+  // <------- 한글 입력 조합 상태 -------> //
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  };
+
+  const handleCompositionEnd = () => {
+    setIsComposing(false);
   };
 
   return (
@@ -40,6 +51,8 @@ const CommentForm = ({ postId }) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onKeyDown={handleKeyDown}
+          onCompositionStart={handleCompositionStart}
+          onCompositionEnd={handleCompositionEnd}
           placeholder="댓글을 입력해주세요."
           rows="4"
         />

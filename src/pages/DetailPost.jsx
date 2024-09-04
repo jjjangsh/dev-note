@@ -29,8 +29,8 @@ const DetailPost = () => {
   }, [posts, id, navigate]);
 
   useEffect(() => {
-    fetchComments(id); // postId에 해당하는 댓글 가져오기
-  }, [id, fetchComments]);
+    fetchComments(id);
+  }, [id]);
 
   if (posts.length === 0) return <p>로딩중...</p>;
 
@@ -63,26 +63,24 @@ const DetailPost = () => {
               <S_PostInfo>{post.author_nickname}</S_PostInfo>
 
               {
-                // <----로그인된 사용자면서 작성자인 경우 조건부 렌더링!--->
-                user ? (
-                  isAuthor ? (
-                    <S_PostInfoActionBar>
-                      <S_PostInfo>
-                        <Link
-                          to={`/auth/editpost/${post.post_id}`}
-                          style={{ textDecoration: 'underline', color: 'grey', fontSize: 'small' }}
-                        >
-                          수정
-                        </Link>
-                      </S_PostInfo>
-                      <S_PostInfo
-                        onClick={handleDelete}
+                // <----로그인된 사용자면서 작성자인 경우 조건부 렌더링!---> //
+                isAuthor ? (
+                  <S_PostInfoActionBar>
+                    <S_PostInfo>
+                      <Link
+                        to={`/auth/editpost/${post.post_id}`}
                         style={{ textDecoration: 'underline', color: 'grey', fontSize: 'small' }}
                       >
-                        삭제
-                      </S_PostInfo>
-                    </S_PostInfoActionBar>
-                  ) : null
+                        수정
+                      </Link>
+                    </S_PostInfo>
+                    <S_PostInfo
+                      onClick={handleDelete}
+                      style={{ textDecoration: 'underline', color: 'grey', fontSize: 'small' }}
+                    >
+                      삭제
+                    </S_PostInfo>
+                  </S_PostInfoActionBar>
                 ) : null
               }
             </S_PostInfoBar>
