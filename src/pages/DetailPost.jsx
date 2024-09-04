@@ -30,7 +30,7 @@ const DetailPost = () => {
 
   useEffect(() => {
     fetchComments(id);
-  }, [id, fetchComments]);
+  }, [id]);
 
   if (posts.length === 0) return <p>로딩중...</p>;
 
