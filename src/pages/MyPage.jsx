@@ -12,52 +12,43 @@ import {
   S_MonthCardContainer,
   S_MyPageTitle
 } from '../styled/StyledMypage';
+import { getImageURL } from '../utils/supabaseStorage';
+
 const MyPage = () => {
-  let prevAvatar = null;
   const { user, setUser } = useContext(UserContext);
+
   const [formData, setFormData] = useState({
     name: user?.name || '',
     nickname: user?.nickname || '',
     avatar_url: user?.avatar_url || ''
   });
+
   const [isEditMode, setIsEditMode] = useState(false);
+
+  let prevAvatar = null;
   const setPrevAvatar = (file) => {
     prevAvatar = file;
     setFormData({ ...formData, avatar_url: file });
   };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  let avatarUrl;
   const handleImageChange = async (file) => {
-    if (file) {
-      const { data, error } = await supabase.storage
-        .from('avatars')
-        .upload(`public/${user.id}/${file.name}`, file, { upsert: true });
-      if (error) {
-        console.error('이미지 업로드 오류:', error);
-        return;
-      }
-      const avatarUrl = supabase.storage.from('avatars').getPublicUrl(data.path).data.publicUrl;
+    if (file && prevAvatar !== file) {
+      avatarUrl = await getImageURL(file, 'avatars', `public/${user.id}`);
       setFormData({ ...formData, avatar_url: avatarUrl });
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let updateObj = {
-      name: formData.name,
-      nickname: formData.nickname
-    };
-
-    if (prevAvatar !== formData.avatar_url) {
-      console.log('img changed');
-
-      updateObj = { ...updateObj, avatar_url: 'https://cdn.imweb.me/upload/S201807025b39d1981b0b0/5cac274d00b12.jpg' };
-    }
 
     try {
-      console.log('updateObj', updateObj);
-      updateObj = { ...updateObj, avatar_url: 'https://cdn.imweb.me/upload/S201807025b39d1981b0b0/5cac274d00b12.jpg' };
-      const { error } = await supabase.from('profile').update(updateObj).eq('id', user.id);
+      console.log('updateObj', formData);
+      const { error } = await supabase.from('profile').update(formData).eq('id', user.id);
       if (error) {
         console.error('정보 수정 오류:', error);
         return;
