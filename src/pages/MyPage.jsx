@@ -25,29 +25,38 @@ const MyPage = () => {
 
   const [isEditMode, setIsEditMode] = useState(false);
 
-  let prevAvatar = null;
-  const setPrevAvatar = (file) => {
-    prevAvatar = file;
-    setFormData({ ...formData, avatar_url: file });
-  };
+  const [prevAvatar, setPrevAvatar] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  let avatarUrl;
   const handleImageChange = async (file) => {
-    if (file && prevAvatar !== file) {
-      avatarUrl = await getImageURL(file, 'avatars', `public/${user.id}`);
-      setFormData({ ...formData, avatar_url: avatarUrl });
-    }
+     setFormData({...formData, avatar_url: file})
   };
+
+  const handleEnterEditMode = () => {
+    setIsEditMode(true);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    let updateObj = {
+      name: formData.name,
+      nickname: formData.nickname,
+    }
+
+    if (prevAvatar !== formData.avatar_url) {
+      const url = await getImageURL(formData.avatar_url, 'avatars', `public/${user.id}`);
+      updateObj = { ...formData, avatar_url: url };
+      console.log("이미지 변동: ", prevAvatar, "=> ", formData.avatar_url)
+    } else {
+      console.log('이미지 변동 없음');
+    }
+
     try {
-      const { error } = await supabase.from('profile').update(formData).eq('id', user.id);
+      const { error } = await supabase.from('profile').update(updateObj).eq('id', user.id);
 
       if (error) {
         console.error('정보 수정 오류:', error);
@@ -104,7 +113,7 @@ const MyPage = () => {
               label="프로필 이미지 선택"
               value={formData.avatar_url}
               setValue={handleImageChange}
-              prevThumbnailUrl={formData.avatar_url}
+              prevThumbnailUrl={user.avatar_url}
               setPrevThumbnail={setPrevAvatar}
             />
             <S_MyPageButton type="button" onClick={handleSubmit}>
@@ -123,7 +132,7 @@ const MyPage = () => {
               <S_ProfileTitle>프로필 이미지:</S_ProfileTitle>
               <S_ProfileImage src={formData.avatar_url} alt="프로필 이미지" />
             </S_ProfileItem>
-            <S_MyPageButton type="button" onClick={() => setIsEditMode(true)}>
+            <S_MyPageButton type="button" onClick={handleEnterEditMode}>
               정보 수정
             </S_MyPageButton>
           </>
