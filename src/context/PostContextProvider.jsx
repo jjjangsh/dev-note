@@ -65,8 +65,6 @@ const PostContextProvider = ({ children }) => {
     if (prevColumns.thumbnail !== newColumns.thumbnail)
       updateColumns.thumbnail_url = await getImageURL(newColumns.thumbnail, 'thumbnails');
 
-    // TODO: 민영 - 유효성검사 추가
-
     const { error: tableError } = await supabase.from('DEV_POSTS').update(updateColumns).eq('post_id', id).select();
 
     if (tableError) {

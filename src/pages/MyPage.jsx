@@ -12,66 +12,68 @@ import {
   S_MonthCardContainer,
   S_MyPageTitle
 } from '../styled/StyledMypage';
+import { getImageURL } from '../utils/supabaseStorage';
+
 const MyPage = () => {
-  let prevAvatar = null;
   const { user, setUser } = useContext(UserContext);
+
   const [formData, setFormData] = useState({
     name: user?.name || '',
     nickname: user?.nickname || '',
     avatar_url: user?.avatar_url || ''
   });
+
   const [isEditMode, setIsEditMode] = useState(false);
-  const setPrevAvatar = (file) => {
-    prevAvatar = file;
-    setFormData({ ...formData, avatar_url: file });
-  };
+
+  const [prevAvatar, setPrevAvatar] = useState(null);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const handleImageChange = async (file) => {
-    if (file) {
-      const { data, error } = await supabase.storage
-        .from('avatars')
-        .upload(`public/${user.id}/${file.name}`, file, { upsert: true });
-      if (error) {
-        console.error('이미지 업로드 오류:', error);
-        return;
-      }
-      const avatarUrl = supabase.storage.from('avatars').getPublicUrl(data.path).data.publicUrl;
-      setFormData({ ...formData, avatar_url: avatarUrl });
-    }
+     setFormData({...formData, avatar_url: file})
   };
+
+  const handleEnterEditMode = () => {
+    setIsEditMode(true);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     let updateObj = {
       name: formData.name,
-      nickname: formData.nickname
-    };
+      nickname: formData.nickname,
+    }
 
     if (prevAvatar !== formData.avatar_url) {
-      console.log('img changed');
-
-      updateObj = { ...updateObj, avatar_url: 'https://cdn.imweb.me/upload/S201807025b39d1981b0b0/5cac274d00b12.jpg' };
+      const url = await getImageURL(formData.avatar_url, 'avatars', `public/${user.id}`);
+      updateObj = { ...formData, avatar_url: url };
+      console.log("이미지 변동: ", prevAvatar, "=> ", formData.avatar_url)
+    } else {
+      console.log('이미지 변동 없음');
     }
 
     try {
-      console.log('updateObj', updateObj);
-      updateObj = { ...updateObj, avatar_url: 'https://cdn.imweb.me/upload/S201807025b39d1981b0b0/5cac274d00b12.jpg' };
       const { error } = await supabase.from('profile').update(updateObj).eq('id', user.id);
+
       if (error) {
         console.error('정보 수정 오류:', error);
         return;
       }
-      setUser({ ...user, ...formData });
+
+      setUser({ ...user, ...updateObj });
       setIsEditMode(false);
       alert('회원정보가 성공적으로 수정되었습니다.');
     } catch (error) {
       console.error('정보 수정 오류:', error);
     }
   };
-  //----------------------------------
+
   const { posts } = useContext(PostContext);
   const userPosts = posts.filter((post) => post.author_id === user.id);
+
   const septemPost = userPosts.filter((post) => {
     const end_date = post.project_end_date;
     const dateArr = end_date.split('-');
@@ -85,12 +87,14 @@ const MyPage = () => {
     const endMonth = dateArr[1];
     return endMonth === '08';
   });
+
   const julyPosts = userPosts.filter((post) => {
     const end_date = post.project_end_date;
     const dateArr = end_date.split('-');
     const endMonth = dateArr[1];
     return endMonth === '07';
   });
+
   return (
     <S_MyPageLayout>
       <S_MyPageContainer>
@@ -109,7 +113,7 @@ const MyPage = () => {
               label="프로필 이미지 선택"
               value={formData.avatar_url}
               setValue={handleImageChange}
-              prevThumbnailUrl={formData.avatar_url}
+              prevThumbnailUrl={user.avatar_url}
               setPrevThumbnail={setPrevAvatar}
             />
             <S_MyPageButton type="button" onClick={handleSubmit}>
@@ -126,9 +130,9 @@ const MyPage = () => {
             </S_ProfileItem>
             <S_ProfileItem>
               <S_ProfileTitle>프로필 이미지:</S_ProfileTitle>
-              <S_ProfileImage src={formData.avatar_url} alt="프로필 이미지" />
+              <S_ProfileImage src={user.avatar_url} alt="프로필 이미지" />
             </S_ProfileItem>
-            <S_MyPageButton type="button" onClick={() => setIsEditMode(true)}>
+            <S_MyPageButton type="button" onClick={handleEnterEditMode}>
               정보 수정
             </S_MyPageButton>
           </>
@@ -168,6 +172,7 @@ const S_MyPageLayout = styled.div`
   flex-direction: column;
   min-height: 100vh;
 `;
+
 const S_MyPageContainer = styled.div`
   max-width: 400px;
   margin: 0 auto;
@@ -175,13 +180,15 @@ const S_MyPageContainer = styled.div`
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #44484f;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 400px;
 `;
+
 const S_MyPageForm = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const S_MyPageInput = styled.input`
   margin-bottom: 10px;
   padding: 10px;
@@ -194,6 +201,7 @@ const S_MyPageInput = styled.input`
     border-color: #40a9ff;
   }
 `;
+
 const S_MyPageButton = styled.button`
   padding: 10px;
   border: none;
@@ -204,17 +212,20 @@ const S_MyPageButton = styled.button`
   font-size: 16px;
   cursor: pointer;
 `;
+
 const S_ProfileItem = styled.div`
   padding: 10px;
   color: white;
   font-size: 16px;
 `;
+
 const S_ProfileImage = styled.img`
   max-width: 100%;
   height: auto;
   border-radius: 4px;
   margin-top: 10px;
 `;
+
 const S_ProfileTitle = styled.strong`
   font-weight: bold;
   color: #36d0d2;
