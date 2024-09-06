@@ -53,7 +53,7 @@
 
 ## 담당 기능
 - 장성현 : 로그인, 회원가입, 로그아웃, 회원정보 수정 등 회원관리
-- 이정곤 : 마이 페이지 프로필, 개인 게시물 리스트 간략한 정보 표시
+- 이정곤 : 마이 페이지 개인 게시물 리스트 간략한 정보 표시
 - 김민영 : 게시글 작성, 게시글 상세 페이지에서 수정 등 CRUD
 - 이지영 : 메인 페이지 전체적인 레이아웃 설정 및 게시글 card 제작
 - 김서연 : 게시글 상세 페이지 레이아웃 및 게시글 삭제, 댓글 작성, 삭제
@@ -118,6 +118,72 @@
 </br> <img src="https://github.com/user-attachments/assets/6edb721d-6e54-48f3-bc65-52b3283dae89" width="600" height="500"/>
 
 </br>
+
+## 트러블슈팅
+1. supabase storage 이미지 중복 저장
+ - 문제: 게시글 수정 기능에서 사용자가 어떤 항목을 수정했는지 고려하지 않고 모든 내용을 update 하면서 storage에 동일한 이미지가 다른 파일로 중복 저장됨
+ - 해결: 수정을 마치고 사용자가 입력을 제출할 때 기존 값과 비교해 변경된 값만 객체에 넣어 update하는 방식으로 변경
+   ```
+   if (prevColumns.title !== newColumns.title) updateColumns.title = newColumns.title;
+   if (prevColumns.tech_stack !== newColumns.tech_stack) updateColumns.tech_stack = newColumns.tech_stack.split(' ');
+   if (prevColumns.content !== newColumns.content) updateColumns.content = newColumns.content;
+   if (prevColumns.project_start_date !== newColumns.project_start_date)
+    updateColumns.project_start_date = newColumns.project_start_date;
+   if (prevColumns.project_end_date !== newColumns.project_end_date)
+    updateColumns.project_end_date = newColumns.project_end_date;
+   if (prevColumns.thumbnail !== newColumns.thumbnail)
+    updateColumns.thumbnail_url = await getImageURL(newColumns.thumbnail, 'thumbnails');
+
+   const { error: tableError } = await supabase.from('DEV_POSTS').update(updateColumns).eq('post_id', id).select();
+   ```
+
+2. 사용자 정보 관리
+  - 문제: 기본적으로 제공되는 유저 정보 외에 다른 내용(프로필 이미지 등)을 추가하고 싶은데, 테이블을 따로 생성하려니 비밀번호가 그대로 노출돼서 고민
+  - 해결: 새로운 사용자가 추가될 때(회원가입) 테이블과 연결하는 함수 사용하여 처리
+    ```
+    begin
+     insert into public.profile (id, email, name, nickname, avatar_url)
+     values (new.id, new.email, new.raw_user_meta_data->>'name',new.raw_user_meta_data->>'nickname', new.raw_user_meta_data->>'avatar_url');
+     return new;
+    end;
+    ```
+    ```
+    create policy "public profiles are viewed by everyone." on profile for select using(true);
+    create policy "Users can insert their own profile." on profile for insert with check(auth.uid()=id);
+    create function public.handle_new_user()
+    returns trigger as $$
+    begin
+     insert into public.profile (id, email, name, nickname, avatar_url)
+     values (new.id, new.email, new.raw_user_meta_data->>'name', new.raw_user_meta_data->>'nickname', new.raw_user_meta_data->>'avatar_url');
+     return new;
+    end;
+    $$ language plpgsql security definer;
+    create trigger on_auth_user_created
+     after insert on auth.users
+     for each row execute procedure public.handle_new_user();
+    ```
+
+3. 탭 이동시 클라이언트에서 supabase API 요청이 이루어지지 않음
+ - 문제: 에러 메세지가 확인되지 않는 상황에서 supabase 관련 기능이 모두 작동하지 않아 원인을 찾기 어려웠음
+ - 해결: 문제가 되는 상황을 찾기위해 useEffect의 클린업, 상태변화를 감지하는 리스너들에서 supabase 관련 context들의 값을 출력해 상황을 파악하고자 함. 브라우저의 다른 탭으로 이동했을 때 인증 상태 변경(SIGN IN) 이벤트가 중복 발생하는 것을 확인하여 해당 이벤트 발생시 처리해줘야하는 로직을 추가함
+   ```
+   const setUserProfile = async () => { ...생략 }
+   
+   if (session?.user) {
+    switch (event) {
+     case 'SIGNED_IN':
+      setUserProfile();
+      return;
+     case 'SIGNED_OUT':
+      setUser(null);
+      return;
+     }
+   } else {
+     setUser(null);
+   }});
+   ```
+
+<br/>
 
 ## 팀원 소감
 - 김민영 : 도전과제를 많이 하지 못해 아쉽지만 그만큼 다음 프로젝트 때 더 욕심나는 부분이 생긴 것 같다. 여러 컴포넌트에서 공용으로 사용할 수 있는 util성 함수들이나 공용 컴포넌트들을 더 가독성있고 유지보수가 용이하게 만들어보고싶다.
