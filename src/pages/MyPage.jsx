@@ -63,7 +63,7 @@ const MyPage = () => {
         return;
       }
 
-      setUser({ ...user, ...formData });
+      setUser({ ...user, ...updateObj });
       setIsEditMode(false);
       alert('회원정보가 성공적으로 수정되었습니다.');
     } catch (error) {
