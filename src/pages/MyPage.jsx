@@ -130,7 +130,7 @@ const MyPage = () => {
             </S_ProfileItem>
             <S_ProfileItem>
               <S_ProfileTitle>프로필 이미지:</S_ProfileTitle>
-              <S_ProfileImage src={formData.avatar_url} alt="프로필 이미지" />
+              <S_ProfileImage src={user.avatar_url} alt="프로필 이미지" />
             </S_ProfileItem>
             <S_MyPageButton type="button" onClick={handleEnterEditMode}>
               정보 수정
