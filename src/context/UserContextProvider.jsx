@@ -40,21 +40,44 @@ export const UserContextProvider = ({ children }) => {
     getSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session?.user) {
-        const { id, email, created_at } = session.user;
+      const currentTime = Math.floor(Date.now() / 1000);
+      if (session?.expires_at < currentTime) {
+        console.log('시간초과: 세션이 만료되었습니다.');
+        setUser(null); // 로그아웃 처리
+        return;
+      }
 
-        const { data: profileData, error: profileError } = await supabase
-          .from('profile')
-          .select('name, nickname, avatar_url')
-          .eq('id', id)
-          .single();
+      const setUserProfile = async () => {
+        try {
+          const { id, email, created_at } = session.user;
+          const { data: profileData, error: profileError } = await supabase
+            .from('profile')
+            .select('name, nickname, avatar_url')
+            .eq('id', id)
+            .single();
 
-        if (profileError) {
-          console.error('프로필 정보 가져오기 오류:', profileError);
-          return;
+          if (profileError) {
+            console.error('프로필 정보 가져오기 오류', profileError);
+            return;
+          }
+
+          setUser({ id, email, created_at, ...profileData });
+        } catch (error) {
+          console.log('Unexpected Error: ', error);
         }
+      };
 
-        setUser({ id, email, created_at, ...profileData });
+      if (session?.user) {
+        switch (event) {
+          case 'SIGNED_IN':
+            setUserProfile();
+            return;
+          case 'SIGNED_OUT':
+            setUser(null);
+            return;
+          default:
+            break;
+        }
       } else {
         setUser(null);
       }
