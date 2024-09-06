@@ -47,12 +47,13 @@ const MyPage = () => {
     e.preventDefault();
 
     try {
-      console.log('updateObj', formData);
       const { error } = await supabase.from('profile').update(formData).eq('id', user.id);
+
       if (error) {
         console.error('정보 수정 오류:', error);
         return;
       }
+
       setUser({ ...user, ...formData });
       setIsEditMode(false);
       alert('회원정보가 성공적으로 수정되었습니다.');
@@ -60,9 +61,10 @@ const MyPage = () => {
       console.error('정보 수정 오류:', error);
     }
   };
-  //----------------------------------
+
   const { posts } = useContext(PostContext);
   const userPosts = posts.filter((post) => post.author_id === user.id);
+
   const septemPost = userPosts.filter((post) => {
     const end_date = post.project_end_date;
     const dateArr = end_date.split('-');
@@ -76,12 +78,14 @@ const MyPage = () => {
     const endMonth = dateArr[1];
     return endMonth === '08';
   });
+
   const julyPosts = userPosts.filter((post) => {
     const end_date = post.project_end_date;
     const dateArr = end_date.split('-');
     const endMonth = dateArr[1];
     return endMonth === '07';
   });
+
   return (
     <S_MyPageLayout>
       <S_MyPageContainer>
@@ -159,6 +163,7 @@ const S_MyPageLayout = styled.div`
   flex-direction: column;
   min-height: 100vh;
 `;
+
 const S_MyPageContainer = styled.div`
   max-width: 400px;
   margin: 0 auto;
@@ -166,13 +171,15 @@ const S_MyPageContainer = styled.div`
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #44484f;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 400px;
 `;
+
 const S_MyPageForm = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const S_MyPageInput = styled.input`
   margin-bottom: 10px;
   padding: 10px;
@@ -185,6 +192,7 @@ const S_MyPageInput = styled.input`
     border-color: #40a9ff;
   }
 `;
+
 const S_MyPageButton = styled.button`
   padding: 10px;
   border: none;
@@ -195,17 +203,20 @@ const S_MyPageButton = styled.button`
   font-size: 16px;
   cursor: pointer;
 `;
+
 const S_ProfileItem = styled.div`
   padding: 10px;
   color: white;
   font-size: 16px;
 `;
+
 const S_ProfileImage = styled.img`
   max-width: 100%;
   height: auto;
   border-radius: 4px;
   margin-top: 10px;
 `;
+
 const S_ProfileTitle = styled.strong`
   font-weight: bold;
   color: #36d0d2;
